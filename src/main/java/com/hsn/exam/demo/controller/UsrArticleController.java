@@ -30,16 +30,25 @@ public class UsrArticleController {
 	private void makeTestdata() {
 		
 		for(int i=0; i<10; i++) {
-			int id=lastId+1;
+			
 			String title = "제목"+i;
 			String body = "내용"+i;
-			Article article = new Article(id,title,body);
 			
-			lastId = id;
-			
-			articles.add(article); //파라미터로 조립된 article을 리스트에 담는다.
+			writeArticle(title,body);//게시물작성로직실행만 하면됨
 		}
 		
+	}
+	
+	private Article writeArticle(String title,String body) { //게시물작성로직이 중복되어 함수로 구현함
+
+		int id=lastId+1;
+		Article article = new Article(id,title,body);
+		
+		lastId = id;
+		
+		articles.add(article); //파라미터로 조립된 article을 리스트에 담는다.
+		
+		return article;
 	}
 
 
@@ -47,13 +56,7 @@ public class UsrArticleController {
 	@ResponseBody
 	public Article doAdd(String title,String body) { //제목과 내용을 파라미터로 받는 응답메소드 구현후,
 		
-		int id=lastId+1;
-		Article article = new Article(id,title,body);
-		lastId = id;
-		
-		articles.add(article); //파라미터로 조립된 article을 리스트에 담는다.
-		
-		return article;
+		return writeArticle(title,body); //작성로직실행후 결과를 받기위해 doAdd를 리턴형태로 만듬
 		
 	}
 	
