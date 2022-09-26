@@ -26,7 +26,7 @@ public class UsrArticleController {
 		makeTestdata();
 	}
 	
-	
+	//서비스 메소드
 	private void makeTestdata() {
 		
 		for(int i=0; i<10; i++) {
@@ -50,8 +50,28 @@ public class UsrArticleController {
 		
 		return article;
 	}
+	
+	private void deleteArticle(int id) {
+		 Article article = getArticle(id);
+		
+		articles.remove(article); //리스트에서 id로 찾은 게시글을 삭제한다.
+		
+	}
+	
+	
+	private Article getArticle(int id) {
+		
+		for(Article article:articles) {
+			if(article.getId() == id) {
+				return article;
+			}
+		}
+		
+		return null;
+	}
 
 
+	//액션 메소드
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
 	public Article doAdd(String title,String body) { //제목과 내용을 파라미터로 받는 응답메소드 구현후,
@@ -67,6 +87,31 @@ public class UsrArticleController {
 		return articles;
 
 	}
+	
+	@RequestMapping("/usr/article/doDelete")
+	@ResponseBody
+	public String doDelete(int id) {
+		
+		Article article = getArticle(id); //id를 기반으로 article을 찾는 함수
+		
+		if(article==null) {
+			return id+"번글은 존재하지 않습니다.";
+		}
+
+		deleteArticle(id); //찾은 id를 인자로 주고 실제 삭제하는 함수 실행시킴
+		
+		return id+"번글이 삭제되었습니다.";
+	}
+
+
+
+
+	
+
+
+
+
+
 }
 
 
