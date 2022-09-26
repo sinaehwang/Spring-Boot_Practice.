@@ -58,6 +58,14 @@ public class UsrArticleController {
 		
 	}
 	
+	private Article modifyArticle(int id,String title, String body) {
+		
+		Article article = getArticle(id);
+		article.setTitle(title);
+		article.setBody(body);
+		
+		return article;
+	}
 	
 	private Article getArticle(int id) {
 		
@@ -79,6 +87,7 @@ public class UsrArticleController {
 		return writeArticle(title,body); //작성로직실행후 결과를 받기위해 doAdd를 리턴형태로 만듬
 		
 	}
+	
 	
 	@RequestMapping("/usr/article/getArticles")
 	@ResponseBody
@@ -102,6 +111,36 @@ public class UsrArticleController {
 		
 		return id+"번글이 삭제되었습니다.";
 	}
+	
+	@RequestMapping("/usr/article/doModify")
+	@ResponseBody
+	public Object doModify(int id,String title, String body) {//리턴타입을 String 과 Article 둘다 사용해야되기 때문에 Object타입을 사용함
+		
+		Article article = getArticle(id);
+		
+		if(article==null) {
+			return id+"번글은 존재하지 않습니다.";
+		}
+
+		return modifyArticle(id,title,body);
+		
+	}
+	
+	@RequestMapping("/usr/article/getArticle")
+	@ResponseBody
+	public Object getArticleAction(int id) {
+		
+		Article article = getArticle(id);
+		
+		if(article==null) {
+			return id+"번글은 존재하지 않습니다.";
+		}
+
+		return article;
+		
+	}
+
+	
 
 
 
