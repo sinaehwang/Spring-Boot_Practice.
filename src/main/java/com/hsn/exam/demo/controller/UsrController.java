@@ -6,35 +6,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class UsrController {
-	int count=0;
+	private int count;
 	
-	@RequestMapping("/usr/home/main")
-	@ResponseBody
-	public String showMain() {
-		return "안녕";
+	public UsrController() {
+		
+		count=-1;
 	}
-	@RequestMapping("/usr/home/main2")
-	@ResponseBody
-	public String showMain2() {
-		return "반갑";
-	}
-	@RequestMapping("/usr/home/main3")
-	@ResponseBody
-	public String showMain3() {
-		return "잘가";
-	}
-	@RequestMapping("/usr/home/main4")
+	
+	@RequestMapping("/usr/home/getCount")//get은 값을 가져오다
 	@ResponseBody
 	public int showMain4() {
 		
-		return count++;//count를 1씩 증가해서 응답하는 메소드가된다. count값이 초기화 되지않을려면 count가 지역변수가 되어야함
+		return count;//count를 1씩 증가해서 응답하는 메소드가된다. count값이 초기화 되지않을려면 count가 지역변수가 되어야함
 	}
 	
-	@RequestMapping("/usr/home/main5")
+	@RequestMapping("/usr/home/doSetCount")//set은 값을 셋팅하다
 	@ResponseBody
-	public int showMain5() {
-		count=0; //count 값을 0으로 만들어 응답하는 메소드가됨
-		return count;
+	public String doSetCount(int count) {//파라미터를 매개변수로 받고
+		this.count=count; //지역변수count를 매개변수값으로 셋팅후 응답하는 메소드가됨
+		return "count값이 "+this.count+"로 초기화됨";
 	}
 
 }
