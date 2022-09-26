@@ -23,9 +23,26 @@ public class UsrArticleController {
 	public UsrArticleController() {
 		lastId = 0;
 		articles = new ArrayList<>();
+		makeTestdata();
 	}
 	
 	
+	private void makeTestdata() {
+		
+		for(int i=0; i<10; i++) {
+			int id=lastId+1;
+			String title = "제목"+i;
+			String body = "내용"+i;
+			Article article = new Article(id,title,body);
+			
+			lastId = id;
+			
+			articles.add(article); //파라미터로 조립된 article을 리스트에 담는다.
+		}
+		
+	}
+
+
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
 	public Article doAdd(String title,String body) { //제목과 내용을 파라미터로 받는 응답메소드 구현후,
