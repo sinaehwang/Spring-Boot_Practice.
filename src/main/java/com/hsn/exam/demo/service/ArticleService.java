@@ -17,9 +17,11 @@ public class ArticleService {
 		
 	}
 	
-	public Article writeArticle(String title,String body) { //게시물작성로직이 중복되어 함수로 구현함
+	public int writeArticle(String title,String body) { //게시물작성로직이 중복되어 함수로 구현함
 		
-		return articleRepository.writeArticle(title,body);
+		articleRepository.writeArticle(title,body);
+		
+		return articleRepository.getLastInsertId();
 
 	}
 	

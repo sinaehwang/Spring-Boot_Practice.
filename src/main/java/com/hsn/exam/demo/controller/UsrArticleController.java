@@ -21,7 +21,10 @@ public class UsrArticleController {
 	@ResponseBody
 	public Article doAdd(String title,String body) { //제목과 내용을 파라미터로 받는 응답메소드 구현후,
 		
-		Article article = articleService.writeArticle(title,body); //작성로직실행후 결과를 받기위해 doAdd를 리턴형태로 만듬 
+		//Article article = articleService.writeArticle(title,body); //작성로직실행후 결과를 받기위해 doAdd를 리턴형태로 만듬 
+		int id = articleService.writeArticle(title, body); //실행후 리턴된 id를 기반으로 서비스에 getArticle()를 요청한다.
+		
+		Article article = articleService.getArticle(id);
 		
 		return article;
 		
@@ -70,7 +73,7 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/getArticle")
 	@ResponseBody
-	public Object getArticleAction(int id) {
+	public Object getArticle(int id) {
 		
 		Article article = articleService.getArticle(id);
 		
