@@ -15,7 +15,6 @@ public class ArticleService {
 	public ArticleService(ArticleRepository articleRepository) {//넘겨받은 다음에 프라이빗articleRepository에 저장후 사용
 		this.articleRepository = articleRepository;
 		
-		articleRepository.makeTestdata();
 	}
 	
 	public Article writeArticle(String title,String body) { //게시물작성로직이 중복되어 함수로 구현함
@@ -30,9 +29,9 @@ public class ArticleService {
 		
 	}
 	
-	public Article modifyArticle(int id,String title, String body) {
+	public void modifyArticle(int id,String title, String body) {
 		
-		return articleRepository.modifyArticle(id,title,body);
+		articleRepository.modifyArticle(id,title,body);
 	}
 	
 	public Article getArticle(int id) {
