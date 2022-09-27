@@ -3,8 +3,11 @@ package com.hsn.exam.demo.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.hsn.exam.demo.vo.Article;
 
+@Service
 public class ArticleService {
 	
 	private int lastId;
@@ -13,6 +16,7 @@ public class ArticleService {
 	public ArticleService(){
 		lastId = 0;
 		articles = new ArrayList<>();
+		makeTestdata();
 	}
 
 	//서비스 메소드
