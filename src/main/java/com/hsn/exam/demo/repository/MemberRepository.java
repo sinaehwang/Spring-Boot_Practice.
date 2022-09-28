@@ -1,5 +1,7 @@
 package com.hsn.exam.demo.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -39,6 +41,12 @@ public interface MemberRepository {
 			SELECT * FROM `member` WHERE loginId = #{loginId}
 			""")
 	public Member getMemberByLogId(String loginId);
+
+	@Select("""
+			SELECT * FROM `member` 
+			ORDER BY id DESC
+			""")
+	public List<Member> getMembers();
 	
 	
 

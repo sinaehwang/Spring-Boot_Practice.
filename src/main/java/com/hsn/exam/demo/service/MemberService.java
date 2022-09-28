@@ -1,5 +1,7 @@
 package com.hsn.exam.demo.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,7 @@ public class MemberService {
 	
 	@Autowired
 	private MemberRepository memberRepository;
+	
 	
 	public MemberService(MemberRepository memberRepository) {
 		this.memberRepository=memberRepository;
@@ -38,6 +41,13 @@ public class MemberService {
 		Member member = memberRepository.getMemberByLogId(loginId);
 		
 		return member;
+	}
+
+	public List<Member> getMembers() {
+		
+		List<Member> members = memberRepository.getMembers();
+		
+		return members;
 	}
 
 }

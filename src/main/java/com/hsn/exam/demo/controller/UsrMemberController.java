@@ -1,5 +1,7 @@
 package com.hsn.exam.demo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,9 +37,15 @@ public class UsrMemberController {
 		if(member==null) { //널인경우에는 리턴을 문구로 알려주고
 			return "해당 회원은 존재하지 않습니다.";
 		}
-		
 		return member; //값이있다면 멤버를 보여줘야한다.
 		 
+	}
+	
+	@RequestMapping("/usr/member/getMembers")
+	@ResponseBody
+	public List<Member> getMembers() { //가입된 회원정보 모두를 가져올려면 리스트형태가 필요하다.
+		
+		return memberService.getMembers();
 	}
 
 }
