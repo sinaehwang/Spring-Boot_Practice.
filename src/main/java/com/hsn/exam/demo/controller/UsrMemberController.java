@@ -23,6 +23,30 @@ public class UsrMemberController {
 	@ResponseBody
 	public Object doJoin(String loginId,String loginPw,String name,String nickname,String cellphoneNum,String email) {
 		
+		if(loginId ==null) {
+			return "loginId값을 입력해주세요";
+		}
+		
+		if(loginPw ==null) {
+			return "loginPw값을 입력해주세요";
+		}
+		
+		if(name ==null) {
+			return "name값을 입력해주세요";
+		}
+		
+		if(nickname ==null) {
+			return "nickname값을 입력해주세요";
+		}
+		
+		if(cellphoneNum ==null) {
+			return "cellphoneNum값을 입력해주세요";
+		}
+		
+		if(email ==null) {
+			return "email값을 입력해주세요";
+		}
+		
 		 int id =memberService.join(loginId,loginPw,name,nickname,cellphoneNum,email); //join으로 insert를 한후에
 		 
 		 if(id==-1) {
