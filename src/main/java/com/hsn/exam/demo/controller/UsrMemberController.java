@@ -23,27 +23,27 @@ public class UsrMemberController {
 	@ResponseBody
 	public Object doJoin(String loginId,String loginPw,String name,String nickname,String cellphoneNum,String email) {
 		
-		if(loginId ==null) {
+		if(loginId ==null ||loginId.trim().length() == 0 ) {
 			return "loginId값을 입력해주세요";
 		}
 		
-		if(loginPw ==null) {
+		if(loginPw ==null ||loginPw.trim().length() == 0) {
 			return "loginPw값을 입력해주세요";
 		}
 		
-		if(name ==null) {
+		if(name ==null ||name.trim().length() == 0) {
 			return "name값을 입력해주세요";
 		}
 		
-		if(nickname ==null) {
+		if(nickname ==null ||nickname.trim().length() == 0) {
 			return "nickname값을 입력해주세요";
 		}
 		
-		if(cellphoneNum ==null) {
+		if(cellphoneNum ==null ||cellphoneNum.trim().length() == 0) {
 			return "cellphoneNum값을 입력해주세요";
 		}
 		
-		if(email ==null) {
+		if(email ==null ||email.trim().length() == 0) {
 			return "email값을 입력해주세요";
 		}
 		
