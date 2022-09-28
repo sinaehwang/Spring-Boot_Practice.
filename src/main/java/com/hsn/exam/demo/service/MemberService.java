@@ -18,6 +18,12 @@ public class MemberService {
 	
 	public int join(String loginId, String loginPw, String name, String nickname, String cellphoneNo,String email) {
 		
+		Member foundMember = memberRepository.getMemberbyLoginId(loginId);
+		
+		if(foundMember!=null) {
+			return -1;
+		}
+		
 		memberRepository.join(loginId,loginPw,name,nickname,cellphoneNo,email);
 		
 		return memberRepository.getLastMemberId();

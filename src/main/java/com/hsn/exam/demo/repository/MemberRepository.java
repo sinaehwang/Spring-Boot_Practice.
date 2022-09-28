@@ -33,4 +33,10 @@ public interface MemberRepository {
 			""")
 	public Member getMemberbyId(int id);
 
+	@Select("""
+			SELECT * FROM `member` 
+			WHERE member.loginId=#{loginId}
+			""")
+	public Member getMemberbyLoginId(String loginId);
+
 }
