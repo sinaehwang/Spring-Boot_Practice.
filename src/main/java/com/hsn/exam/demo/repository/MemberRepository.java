@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import com.hsn.exam.demo.vo.Member;
+
 @Mapper
 public interface MemberRepository {
 
@@ -16,27 +17,29 @@ public interface MemberRepository {
 			loginPw = #{loginPw},
 			`name` = #{name},
 			`nickname` = #{nickname},
-			cellphoneNo = #{cellphoneNo},
+			cellphoneNum = #{cellphoneNum},
 			email = #{email}
-			
-			""")
-	public void join(String loginId, String loginPw, String name, String nickname, String cellphoneNo, String email);
+						""")
+	public void join(String loginId,String loginPw,String name,String nickname,String cellphoneNum,String email);
 
+	
 	@Select("""
 			SELECT LAST_INSERT_ID()
 			""")
 	public int getLastMemberId();
 
-	@Select("""
-			SELECT * FROM `member` 
-			WHERE id = #{id}
-			""")
-	public Member getMemberbyId(int id);
 
 	@Select("""
-			SELECT * FROM `member` 
-			WHERE member.loginId=#{loginId}
+			SELECT * FROM `member` WHERE id = #{id}
 			""")
-	public Member getMemberbyLoginId(String loginId);
+	public Member getMemberById(int id);
+
+
+	@Select("""
+			SELECT * FROM `member` WHERE loginId = #{loginId}
+			""")
+	public Member getMemberByLogId(String loginId);
+	
+	
 
 }

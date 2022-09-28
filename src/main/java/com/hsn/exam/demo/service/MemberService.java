@@ -1,40 +1,43 @@
 package com.hsn.exam.demo.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hsn.exam.demo.repository.MemberRepository;
 import com.hsn.exam.demo.vo.Member;
 
-
 @Service
 public class MemberService {
 	
+	@Autowired
 	private MemberRepository memberRepository;
 	
 	public MemberService(MemberRepository memberRepository) {
 		this.memberRepository=memberRepository;
 	}
 
-	
-	public int join(String loginId, String loginPw, String name, String nickname, String cellphoneNo,String email) {
+	public int join(String loginId,String loginPw,String name,String nickname,String cellphoneNum,String email) {
+
+		memberRepository.join(loginId,loginPw,name,nickname,cellphoneNum,email);
 		
-		Member foundMember = memberRepository.getMemberbyLoginId(loginId);
+		int id = memberRepository.getLastMemberId();
 		
-		if(foundMember!=null) {
-			return -1;
-		}
+		return id;
+	}
+
+	public Member getMemberById(int id) {
 		
-		memberRepository.join(loginId,loginPw,name,nickname,cellphoneNo,email);
+		Member member = memberRepository.getMemberById(id);
 		
-		return memberRepository.getLastMemberId();
+		return member;
 		
 	}
 
-
-	public Member getMemberbyId(int id) {
+	public Member getMemberByLogId(String loginId) {
 		
-		return memberRepository.getMemberbyId(id);
+		Member member = memberRepository.getMemberByLogId(loginId);
 		
+		return member;
 	}
 
 }
