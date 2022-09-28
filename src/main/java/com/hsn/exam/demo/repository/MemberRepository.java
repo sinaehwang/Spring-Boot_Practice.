@@ -47,6 +47,7 @@ public interface MemberRepository {
 			ORDER BY id DESC
 			""")
 	public List<Member> getMembers();
+
 	
 	
 
