@@ -19,11 +19,10 @@ public class UsrMemberController {
 	// 액션 메소드
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
-	public String doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNo,String email) {
+	public void doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNo,String email) {
 		
 		memberService.join(loginId,loginPw,name,nickname,cellphoneNo,email);
 		
-		return "성공";
 	}
 	
 
