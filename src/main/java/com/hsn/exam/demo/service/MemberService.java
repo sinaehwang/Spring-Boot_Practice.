@@ -29,6 +29,15 @@ public class MemberService {
 			if(foundMember!=null) { //null값이 아니라면 아이디가 중복된다는것이기 때문에 id를 -1로 리턴한다 
 				return id;
 			}
+			
+			//가입시 이름+메일 중복체크하는 로직
+			
+			foundMember = memberRepository.getMemberByNameAndEmail(name,email);
+			
+			if(foundMember!=null) { //null값이 아니라면 아이디가 중복된다는것이기 때문에 id를 -1로 리턴한다 
+				id=-2;
+				return id;
+			}
 		
 			memberRepository.join(loginId,loginPw,name,nickname,cellphoneNum,email);
 			

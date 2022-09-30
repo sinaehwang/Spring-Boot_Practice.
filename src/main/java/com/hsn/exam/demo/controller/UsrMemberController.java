@@ -23,7 +23,7 @@ public class UsrMemberController {
 	@ResponseBody
 	public Object doJoin(String loginId,String loginPw,String name,String nickname,String cellphoneNum,String email) {
 		
-		if(loginId ==null ||loginId.trim().length() == 0 ) {
+		if(loginId ==null ||loginId.trim().length() == 0) {
 			return "loginId값을 입력해주세요";
 		}
 		
@@ -51,6 +51,10 @@ public class UsrMemberController {
 		 
 		 if(id==-1) {
 			 return "이미 사용중인 아이디입니다.";
+		 }
+		 
+		 if(id==-2) {
+			 return "이미 사용중인 이름과 메일입니다.";
 		 }
 		 
 		 return memberService.getMemberById(id); //id를 기반으로 회원을 찾는 로직실행
