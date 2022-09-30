@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.hsn.exam.demo.Util.Ut;
 import com.hsn.exam.demo.service.MemberService;
 import com.hsn.exam.demo.vo.Member;
-
-import lombok.Getter;
+import com.hsn.exam.demo.vo.ResultData;
 
 @Controller
 public class UsrMemberController {
@@ -24,46 +23,43 @@ public class UsrMemberController {
 
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
-	public Object doJoin(String loginId,String loginPw,String name,String nickname,String cellphoneNum,String email) {
+	public ResultData doJoin(String loginId,String loginPw,String name,String nickname,String cellphoneNum,String email) {
 		
 		if(Ut.empty(loginId)) { //아이디값을 매개변수로 주고 아이디에 Null여부를 판단하는 함수로 만듬
-			return "loginId값을 입력해주세요";
+			return ResultData.from("F-4", "아이디를 입력해주세요");
 		}
 		
 		if(Ut.empty(loginPw)) {
-			return "loginPw값을 입력해주세요";
+			return ResultData.from("F-4", "패스워드를 입력해주세요");
 		}
 		
 		if(Ut.empty(name)) {
-			return "name값을 입력해주세요";
+			return ResultData.from("F-4", "이름을 입력해주세요");
 		}
 		
 		if(Ut.empty(nickname)) {
-			return "nickname값을 입력해주세요";
+			return ResultData.from("F-4", "닉네임을 입력해주세요");
 		}
 		
 		if(Ut.empty(cellphoneNum)) {
-			return "cellphoneNum값을 입력해주세요";
+			return ResultData.from("F-4", "전화번호를 입력해주세요");
 		}
 		
 		if(Ut.empty(email)) {
-			return "email값을 입력해주세요";
+			return ResultData.from("F-4", "이메일을 입력해주세요");
 		}
 		
-		 int id =memberService.join(loginId,loginPw,name,nickname,cellphoneNum,email); //join으로 insert를 한후에
+		 ResultData JoinData = memberService.join(loginId,loginPw,name,nickname,cellphoneNum,email); //join으로 insert를 한후에
 		 //보여줘야하는것들
 		 //resultCode
 		 //msg
 		 //data1
-		 if(id==-1) {
-			 return Ut.f("이미 사용중인 아이디(%s)입니다.",loginId);//Ut.f에 먼저 넘어가는건 문장자체,그다음에 매개변수가 넘어간다
+		 if(JoinData.isFail()) {//아이디중복,이름+메일중복이 발생했을떄 둘다 실패한 경우니까 isFail()하나로 보여줄수 있음
+			 return JoinData;
 		 }
 		 
-		 if(id==-2) {
-			 return Ut.f("이미 사용중인 이름(%s)과 메일(%s)입니다.",name,email);//Ut.f에 넘어가는 매개변수가 1개이상이 될수있다.
-		 }
-		 
-		 return memberService.getMemberById(id); //id를 기반으로 회원을 찾는 로직실행
+		 return memberService.getMemberById((int) JoinData.getData1()); //id를 기반으로 회원을 찾는 로직실행
+
 	}
 	
 	@RequestMapping("/usr/member/getMember")

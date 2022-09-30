@@ -36,4 +36,5 @@ public class ResultData {
 	public boolean isFail() { //실패메소드는 성공이 false가 되고 실패가 true가된다.
 		return isSuccess()==false;
 	}
+
 }

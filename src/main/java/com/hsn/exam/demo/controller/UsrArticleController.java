@@ -1,7 +1,5 @@
 package com.hsn.exam.demo.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,12 +41,10 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/getArticles")
 	@ResponseBody
-	public List<Article> getArticles() { //리스트에 add된 article 리스트들을 보여주는 응답메소드가 된다.
+	public ResultData getArticles() { //리스트에 add된 article 리스트들을 보여주는 응답메소드가 된다.
 		
-		List<Article> articles = articleService.getArticles();
+		return articleService.getArticles(); //서비스에서 ResultData폼형식으로 변환해줬으니까 그대로 리턴해서 보여주면됨
 		
-		return articles;
-
 	}
 	
 	@RequestMapping("/usr/article/doDelete")

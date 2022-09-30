@@ -46,9 +46,11 @@ public class ArticleService {
 		
 	}
 
-	public List<Article> getArticles() {
+	public ResultData getArticles() {
 		
-		return articleRepository.getArticles();
+		List<Article>articles=articleRepository.getArticles();//쿼리로 가져온 리스트들을 새 리스트 articles변수에 담는다.
+		
+		return ResultData.from("S-3","게시글목록",articles);//ResultData폼 형식으로 변환한다.
 		
 	}
 
