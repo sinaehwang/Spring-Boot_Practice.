@@ -11,6 +11,8 @@ import com.hsn.exam.demo.Util.Ut;
 import com.hsn.exam.demo.service.MemberService;
 import com.hsn.exam.demo.vo.Member;
 
+import lombok.Getter;
+
 @Controller
 public class UsrMemberController {
 	@Autowired
@@ -49,7 +51,10 @@ public class UsrMemberController {
 		}
 		
 		 int id =memberService.join(loginId,loginPw,name,nickname,cellphoneNum,email); //join으로 insert를 한후에
-		 
+		 //보여줘야하는것들
+		 //resultCode
+		 //msg
+		 //data1
 		 if(id==-1) {
 			 return Ut.f("이미 사용중인 아이디(%s)입니다.",loginId);//Ut.f에 먼저 넘어가는건 문장자체,그다음에 매개변수가 넘어간다
 		 }
