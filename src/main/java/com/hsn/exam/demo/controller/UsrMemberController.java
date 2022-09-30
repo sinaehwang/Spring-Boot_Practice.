@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hsn.exam.demo.Util.Ut;
 import com.hsn.exam.demo.service.MemberService;
 import com.hsn.exam.demo.vo.Member;
 
@@ -23,27 +24,27 @@ public class UsrMemberController {
 	@ResponseBody
 	public Object doJoin(String loginId,String loginPw,String name,String nickname,String cellphoneNum,String email) {
 		
-		if(loginId ==null ||loginId.trim().length() == 0) {
+		if(Ut.empty(loginId)) { //아이디값을 매개변수로 주고 아이디에 Null여부를 판단하는 함수로 만듬
 			return "loginId값을 입력해주세요";
 		}
 		
-		if(loginPw ==null ||loginPw.trim().length() == 0) {
+		if(Ut.empty(loginPw)) {
 			return "loginPw값을 입력해주세요";
 		}
 		
-		if(name ==null ||name.trim().length() == 0) {
+		if(Ut.empty(name)) {
 			return "name값을 입력해주세요";
 		}
 		
-		if(nickname ==null ||nickname.trim().length() == 0) {
+		if(Ut.empty(nickname)) {
 			return "nickname값을 입력해주세요";
 		}
 		
-		if(cellphoneNum ==null ||cellphoneNum.trim().length() == 0) {
+		if(Ut.empty(cellphoneNum)) {
 			return "cellphoneNum값을 입력해주세요";
 		}
 		
-		if(email ==null ||email.trim().length() == 0) {
+		if(Ut.empty(email)) {
 			return "email값을 입력해주세요";
 		}
 		
