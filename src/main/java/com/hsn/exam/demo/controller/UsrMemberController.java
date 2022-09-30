@@ -51,11 +51,11 @@ public class UsrMemberController {
 		 int id =memberService.join(loginId,loginPw,name,nickname,cellphoneNum,email); //join으로 insert를 한후에
 		 
 		 if(id==-1) {
-			 return "이미 사용중인 아이디입니다.";
+			 return Ut.f("이미 사용중인 아이디(%s)입니다.",loginId);//Ut.f에 먼저 넘어가는건 문장자체,그다음에 매개변수가 넘어간다
 		 }
 		 
 		 if(id==-2) {
-			 return "이미 사용중인 이름과 메일입니다.";
+			 return Ut.f("이미 사용중인 이름(%s)과 메일(%s)입니다.",name,email);//Ut.f에 넘어가는 매개변수가 1개이상이 될수있다.
 		 }
 		 
 		 return memberService.getMemberById(id); //id를 기반으로 회원을 찾는 로직실행

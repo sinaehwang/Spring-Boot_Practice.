@@ -27,4 +27,9 @@ public class Ut {
 			 */
 	}
 
+	public static String f(String format, Object... args) {//포맷을 받는 format과 여러가지 매개변수를 받을수 있는 Object...인자로 만든다.
+		
+		return String.format(format,args); //문장과 여러개 인자를 입력해서 그대로 리턴해준다.
+	}
+
 }
