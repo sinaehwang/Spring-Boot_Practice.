@@ -29,7 +29,7 @@ public class ResultData<DT> {//제너릭
 		return rd;
 	}
 	
-	public static <DT>ResultData<DT> newData(ResultData<DT> joinData, DT newData) {//멤버타입외에도 다른타입이 들어올수있도록 Object형태로 만듬
+	public static <DT>ResultData<DT> newData(ResultData joinData, DT newData) {//멤버타입외에도 다른타입이 들어올수있도록 Object형태로 만듬
 		
 		
 		return from(joinData.getResultCode(),joinData.getMsg(),newData);//joinData에있는 결과토드랑 메세지를 보여주고,회원정보를 데이터로 보여줌

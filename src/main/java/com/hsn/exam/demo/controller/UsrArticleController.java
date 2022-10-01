@@ -1,5 +1,7 @@
 package com.hsn.exam.demo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,13 +37,13 @@ public class UsrArticleController {
 		
 		Article article = articleService.getArticle(id);
 		
-		return ResultData.from(writeData.getResultCode(), writeData.getMsg(), article); //성공했을때 해당게시글까지 넘겨줘서 보여지도록 
+		return ResultData.newData(writeData, article); //성공했을때 해당게시글까지 넘겨줘서 보여지도록 
 		
 	}
 	
 	@RequestMapping("/usr/article/getArticles")
 	@ResponseBody
-	public ResultData getArticles() { //리스트에 add된 article 리스트들을 보여주는 응답메소드가 된다.
+	public ResultData<List<Article>> getArticles() { //리스트에 add된 article 리스트들을 보여주는 응답메소드가 된다.
 		
 		return articleService.getArticles(); //서비스에서 ResultData폼형식으로 변환해줬으니까 그대로 리턴해서 보여주면됨
 		
@@ -80,7 +82,7 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/getArticle")
 	@ResponseBody
-	public ResultData getArticle(int id) {//ResultData클래스타입으로 바꾸고 from()리턴타입으로 맞춰줘야함
+	public ResultData<Article> getArticle(int id) {//ResultData클래스타입으로 바꾸고 from()리턴타입으로 맞춰줘야함
 		
 		Article article = articleService.getArticle(id);
 		

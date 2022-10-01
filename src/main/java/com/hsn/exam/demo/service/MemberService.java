@@ -21,7 +21,7 @@ public class MemberService {
 		this.memberRepository=memberRepository;
 	}
 
-	public ResultData join(String loginId,String loginPw,String name,String nickname,String cellphoneNum,String email) {
+	public ResultData<Integer> join(String loginId,String loginPw,String name,String nickname,String cellphoneNum,String email) {
 
 		//가입시 아이디 중복체크하는 로직
 			//int id = -1; //테이블구조상 없는 id인 -1로 가정
