@@ -19,7 +19,7 @@ public class ArticleService {
 		
 	}
 	
-	public ResultData writeArticle(String title,String body) { //게시물작성로직이 중복되어 함수로 구현함
+	public ResultData<Integer> writeArticle(String title,String body) { //게시물작성로직이 중복되어 함수로 구현함
 		
 		articleRepository.writeArticle(title,body);
 		

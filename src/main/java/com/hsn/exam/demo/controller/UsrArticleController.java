@@ -21,7 +21,7 @@ public class UsrArticleController {
 	@ResponseBody
 	public ResultData doAdd(String title,String body) {
 		
-		if(Ut.empty(title)) {
+		if(Ut.empty(title)) {//값이 비어있거나 null인경우를 판단하는 함수로직실행
 			return ResultData.from("F-2", "제목을 입력해주세요");//실패코드랑 메세지만 넘겨준다.
 		}
 		
@@ -29,7 +29,7 @@ public class UsrArticleController {
 			return ResultData.from("F-2", "내용을 입력해주세요");
 		}
 		
-		ResultData writeData = articleService.writeArticle(title,body);//writeData안에는 서비스에서 넘겨준 작성글 id가 Data1이 들어있다
+		ResultData<Integer> writeData = articleService.writeArticle(title,body);//writeData안에는 서비스에서 넘겨준 작성글 id가 Data1에 들어있다
 		
 		int id = (int) writeData.getData1();//int로 형변환이 필요함
 		
