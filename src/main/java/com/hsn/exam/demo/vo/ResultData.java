@@ -28,6 +28,14 @@ public class ResultData {
 		
 		return rd;
 	}
+	
+	public static ResultData newData(ResultData joinData, Object newData) {//멤버타입외에도 다른타입이 들어올수있도록 Object형태로 만듬
+		
+		
+		return from(joinData.getResultCode(),joinData.getMsg(),newData);//joinData에있는 결과토드랑 메세지를 보여주고,회원정보를 데이터로 보여줌
+		
+		
+	}
 
 	public boolean isSuccess() {//성공메소드는 참일때 
 		return resultCode.startsWith("S-"); //결과코드가 S로 시작되는 결과코드를 리턴해준다.
@@ -36,5 +44,7 @@ public class ResultData {
 	public boolean isFail() { //실패메소드는 성공이 false가 되고 실패가 true가된다.
 		return isSuccess()==false;
 	}
+
+
 
 }

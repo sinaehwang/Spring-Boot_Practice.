@@ -50,15 +50,16 @@ public class UsrMemberController {
 		}
 		
 		 ResultData JoinData = memberService.join(loginId,loginPw,name,nickname,cellphoneNum,email); //join으로 insert를 한후에
-		 //보여줘야하는것들
-		 //resultCode
-		 //msg
-		 //data1
+		 //현재 JoinData데이터에 들어있는 값은 코드,메세지,id정보
+		 
 		 if(JoinData.isFail()) {//아이디중복,이름+메일중복이 발생했을떄 둘다 실패한 경우니까 isFail()하나로 보여줄수 있음
 			 return JoinData;
 		 }
 		 
-		 return memberService.getMemberById((int) JoinData.getData1()); //id를 기반으로 회원을 찾는 로직실행
+		  Member member =memberService.getMemberById((int) JoinData.getData1()); //id를 기반으로 회원을 찾는 로직실행
+		  //member에 들어있는 정보는 id기반으로 찾아온 회원정보가 들어있다.
+		  
+		  return ResultData.newData(JoinData,member);//코드,메세지,id정보와 member기초정보를 넘겨주는 새 메소드를 생성
 
 	}
 	

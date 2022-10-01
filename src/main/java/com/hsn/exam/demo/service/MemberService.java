@@ -51,11 +51,11 @@ public class MemberService {
 			return ResultData.from("S-4",Ut.f("%d번째 회원 가입완료", id),id);
 	}
 
-	public ResultData getMemberById(int id) {
+	public Member getMemberById(int id) {
 		
 		Member member = memberRepository.getMemberById(id);
 		
-		return ResultData.from("S-4",Ut.f("%d번째 회원 가입완료", id), member);
+		return member;
 	}
 
 	public Member getMemberByLogId(String loginId) {
