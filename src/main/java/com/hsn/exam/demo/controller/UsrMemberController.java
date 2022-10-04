@@ -2,6 +2,8 @@ package com.hsn.exam.demo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,6 +63,45 @@ public class UsrMemberController {
 		  
 		  return ResultData.newData(JoinData,member);//코드,메세지,id정보와 member기초정보를 넘겨주는 새 메소드를 생성
 
+	}
+	
+	
+	@RequestMapping("/usr/member/doLogin")
+	@ResponseBody
+	public ResultData doLogin(HttpSession httpsession,String loginId,String loginPw) {
+		
+		boolean isLogined = false;//로그인이 아닌상태로 가정
+		
+		if(httpsession.getAttribute("loginedMemberId") !=null) {//로그인 상태 유무판별하기 위해서 session사용,널값이 아니면 로그인상태이다.
+			isLogined = true;//로그인상태
+		}
+		
+		if(isLogined) {
+			return ResultData.from("F-3", "이미 로그인 상태입니다.");
+		}
+		
+		if(Ut.empty(loginId)) { //아이디값을 매개변수로 주고 아이디에 Null여부를 판단하는 함수로 만듬
+			return ResultData.from("F-3", "아이디를 입력해주세요");
+		}
+		
+		if(Ut.empty(loginPw)) {
+			return ResultData.from("F-3", "패스워드를 입력해주세요");
+		}
+		
+		Member member = memberService.getMemberByLogId(loginId);//로그인파라미터값으로 멤버찾아오기
+		
+		if(member == null) {
+			
+			return ResultData.from("F-1", "존재하지 않는 아이디입니다.");
+		}
+
+		if(member.getLoginPw().equals(loginPw)==false) {//찾은멤버에서 비번을 가져오고,파라미터로 받은 비번과 일치여부 체크
+			
+			return ResultData.from("F-2", "비밀번호가 일치하지않습니다.");
+		}
+		
+		return ResultData.from("S-1", Ut.f("%s님 로그인 완료",member.getName()));
+		
 	}
 	
 	@RequestMapping("/usr/member/getMember")
