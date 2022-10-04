@@ -69,16 +69,16 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public ResultData doDelete(HttpSession httpsession,int id) {
+	public ResultData doDelete(HttpSession httpsession, int id) {
 
 		boolean isLogined = false;// 로그인이 아닌상태로 가정
-		
+
 		int loginedMemberId = 0;
 
 		if (httpsession.getAttribute("loginedMemberId") != null) {// 로그인 상태 유무판별하기 위해서 session사용,널값이 아니면 로그인상태이다.
 			isLogined = true;// 로그인상태
-			
-			loginedMemberId = (int)httpsession.getAttribute("loginedMemberId");
+
+			loginedMemberId = (int) httpsession.getAttribute("loginedMemberId");
 		}
 
 		if (isLogined == false) {// "로그인상태가 아니다"가 참이라면,
@@ -88,32 +88,49 @@ public class UsrArticleController {
 		Article article = articleService.getArticle(id); // id를 기반으로 article을 찾는 함수
 
 		if (article == null) {
-			
-			return ResultData.from("F-4", Ut.f("%d번 게시글은 존재하지 않습니다.",id));
+
+			return ResultData.from("F-4", Ut.f("%d번 게시글은 존재하지 않습니다.", id));
 		}
-		
-		if(loginedMemberId!=article.getMemberId()) {
+
+		if (loginedMemberId != article.getMemberId()) {
 			return ResultData.from("F-3", "해당게시글에 대한 권한이 없습니다.");
 		}
 
 		articleService.deleteArticle(id); // 찾은 id를 인자로 주고 실제 삭제하는 함수 실행시킴
 
-		return ResultData.from("S-1", Ut.f("%d번 게시글이 삭제되었습니다.",id));
+		return ResultData.from("S-1", Ut.f("%d번 게시글이 삭제되었습니다.", id));
 	}
 
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public Object doModify(int id, String title, String body) {// 리턴타입을 String 과 Article 둘다 사용해야되기 때문에 Object타입을 사용함
+	public ResultData doModify(HttpSession httpsession,int id, String title, String body) {// 리턴타입을 String 과 Article 둘다 사용해야되기 때문에 Object타입을 사용함
+
+		boolean isLogined = false;// 로그인이 아닌상태로 가정
+
+		int loginedMemberId = 0;
+
+		if (httpsession.getAttribute("loginedMemberId") != null) {// 로그인 상태 유무판별하기 위해서 session사용,널값이 아니면 로그인상태이다.
+			isLogined = true;// 로그인상태
+
+			loginedMemberId = (int) httpsession.getAttribute("loginedMemberId");
+		}
+
+		if (isLogined == false) {// "로그인상태가 아니다"가 참이라면,
+			return ResultData.from("F-3", "로그인후 이용해주시기 바랍니다.");
+		}
 
 		Article article = articleService.getArticle(id);
 
 		if (article == null) {
-			return id + "번글은 존재하지 않습니다.";
+			
+			return ResultData.from("F-4", Ut.f("%d번 게시글은 존재하지 않습니다.", id));
 		}
-
-		articleService.modifyArticle(id, title, body);
-
-		return article;
+		
+		if(article.getMemberId()!=loginedMemberId) {
+			return ResultData.from("F-5", "해당게시글에 대한 권한이 없습니다.");
+		}
+		
+		return articleService.modifyArticle(id, title, body);
 
 	}
 

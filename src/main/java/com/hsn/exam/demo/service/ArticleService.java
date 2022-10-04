@@ -35,9 +35,13 @@ public class ArticleService {
 		
 	}
 	
-	public void modifyArticle(int id,String title, String body) {
+	public ResultData<Article> modifyArticle(int id,String title, String body) {
 		
 		articleRepository.modifyArticle(id,title,body);
+		
+		Article article = getArticle(id);//id를 기반으로 수정한 게시글을 가져온다.
+		
+		return ResultData.from("S-4", Ut.f("%d번 게시글이 수정되었습니다.", id),article);
 	}
 	
 	public Article getArticle(int id) {

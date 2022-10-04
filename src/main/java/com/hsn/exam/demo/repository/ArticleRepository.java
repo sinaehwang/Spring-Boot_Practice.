@@ -13,7 +13,7 @@ public interface ArticleRepository {
 	
 	public Article getArticle(int id);
 	
-	public void deleteArticle(int id);
+	public Article deleteArticle(int id);
 
 	public void modifyArticle(int id,String title, String body); 
 
