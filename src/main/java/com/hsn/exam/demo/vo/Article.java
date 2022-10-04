@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor//인자가 없는 경우의 생성자 역활을 대신해줌
 public class Article {
 		private int id;
+		private String regDate;
+		private String updateDate;
+		private int memberId;//회원번호 추가
 		private String title;
 		private String body;
 	

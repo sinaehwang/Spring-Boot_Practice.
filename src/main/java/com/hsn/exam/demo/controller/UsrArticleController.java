@@ -2,6 +2,8 @@ package com.hsn.exam.demo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +23,21 @@ public class UsrArticleController {
 	//액션 메소드
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
-	public ResultData doAdd(String title,String body) {
+	public ResultData doAdd(HttpSession httpsession,String title,String body) {
+		
+		boolean isLogined = false;//로그인이 아닌상태로 가정
+		
+		int loginedMemberId=0;
+		
+		if(httpsession.getAttribute("loginedMemberId") !=null) {//로그인 상태 유무판별하기 위해서 session사용,널값이 아니면 로그인상태이다.
+			isLogined = true;//로그인상태
+			
+			loginedMemberId = (int) httpsession.getAttribute("loginedMemberId");//로그인된 회원의 번호를 저장해놓는다.
+		}
+		
+		if(isLogined==false) {//"로그인상태가 아니다"가 참이라면,
+			return ResultData.from("F-3", "로그인후 이용해주시기 바랍니다.");
+		}
 		
 		if(Ut.empty(title)) {//값이 비어있거나 null인경우를 판단하는 함수로직실행
 			return ResultData.from("F-2", "제목을 입력해주세요");//실패코드랑 메세지만 넘겨준다.
@@ -31,7 +47,7 @@ public class UsrArticleController {
 			return ResultData.from("F-2", "내용을 입력해주세요");
 		}
 		
-		ResultData<Integer> writeData = articleService.writeArticle(title,body);//writeData안에는 서비스에서 넘겨준 작성글 id가 Data1에 들어있다
+		ResultData<Integer> writeData = articleService.writeArticle(title,body,loginedMemberId);//writeData안에는 서비스에서 넘겨준 작성글 id가 Data1에 들어있다
 		
 		int id = (int) writeData.getData1();//int로 형변환이 필요함
 		

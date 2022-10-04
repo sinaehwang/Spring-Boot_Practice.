@@ -19,9 +19,9 @@ public class ArticleService {
 		
 	}
 	
-	public ResultData<Integer> writeArticle(String title,String body) { //게시물작성로직이 중복되어 함수로 구현함
+	public ResultData<Integer> writeArticle(String title,String body,int memberId) { //게시물작성로직이 중복되어 함수로 구현함
 		
-		articleRepository.writeArticle(title,body);
+		articleRepository.writeArticle(title,body,memberId);
 		
 		 int id = articleRepository.getLastInsertId();//실제 작성쿼리 실행후 가져오는 id를 새 변수 id에 담는다.
 		 
