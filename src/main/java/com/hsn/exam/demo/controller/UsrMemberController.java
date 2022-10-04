@@ -69,7 +69,8 @@ public class UsrMemberController {
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
 	public ResultData doLogin(HttpSession httpsession,String loginId,String loginPw) {
-		
+		//1. 로그인 아이디/비번 일치여부부터 체크
+		//2. 로그인 완료 구현
 		boolean isLogined = false;//로그인이 아닌상태로 가정
 		
 		if(httpsession.getAttribute("loginedMemberId") !=null) {//로그인 상태 유무판별하기 위해서 session사용,널값이 아니면 로그인상태이다.
@@ -100,22 +101,33 @@ public class UsrMemberController {
 			return ResultData.from("F-2", "비밀번호가 일치하지않습니다.");
 		}
 		
+		httpsession.setAttribute("loginedMemberId",member.getId());//로그인이 완료가 되면 로그인상태를 session에 저장
+		
 		return ResultData.from("S-1", Ut.f("%s님 로그인 완료",member.getName()));
 		
 	}
 	
-	@RequestMapping("/usr/member/getMember")
+	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody
-	public Object getMemberByLogId(String loginId) { //두가지의 리턴타입이 필요하니까 Object타입사용
+	public ResultData doLogout(HttpSession httpsession) {
 		
-		Member member = memberService.getMemberByLogId(loginId);//가져온값이 null일수도있고 member일수도 있다.
+		boolean isLogined = false;
 		
-		if(member==null) { //널인경우에는 리턴을 문구로 알려주고
-			return "해당 회원은 존재하지 않습니다.";
+		if(httpsession.getAttribute("loginedMemberId") ==null) {//로그아웃이니까 로그인된memberId가 널이어야 참이다.
+			isLogined = true;
 		}
-		return member; //값이있다면 멤버를 보여줘야한다.
-		 
+		
+		if(isLogined) {
+			return ResultData.from("F-4", "이미 로그아웃 상태입니다.");
+		}
+		
+		httpsession.removeAttribute("loginedMemberId");
+		
+		return ResultData.from("S-4", "로그아웃되었습니다.");
+		
 	}
+	
+
 	
 	@RequestMapping("/usr/member/getMembers")
 	@ResponseBody
