@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -59,11 +60,14 @@ public class UsrArticleController {
 
 	}
 
-	@RequestMapping("/usr/article/getArticles")
-	@ResponseBody
-	public ResultData<List<Article>> getArticles() { // 리스트에 add된 article 리스트들을 보여주는 응답메소드가 된다.
+	@RequestMapping("/usr/article/list")
+	public String getArticles(Model model) {
 
-		return articleService.getArticles(); // 서비스에서 ResultData폼형식으로 변환해줬으니까 그대로 리턴해서 보여주면됨
+		List<Article> articles = articleService.getArticles();
+		
+		model.addAttribute("articles",articles);//list.jsp에서 불러올수있음
+		
+		return "usr/article/list";  //jsp로 구현한다.
 
 	}
 
