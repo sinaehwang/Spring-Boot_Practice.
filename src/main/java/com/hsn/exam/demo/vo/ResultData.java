@@ -27,7 +27,7 @@ public class ResultData<DT> {//제너릭
 		rd.resultCode = resultCode;
 		rd.msg = msg;
 		rd.data1 = data1;
-		rd.data1Name = data1Name;
+		rd.data1Name = data1Name;//data1Name추가하기
 		
 		return rd;
 	}
