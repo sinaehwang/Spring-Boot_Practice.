@@ -153,7 +153,7 @@ public class UsrArticleController {
 																			// null값으로 주는 3개인자from()실행
 		}
 
-		return ResultData.from("S-1", Ut.f("%d번 게시물 입니다.", id), article);// 게시글이 있을때는 해당게시글까지 포함해서 3개인자를 넘겨준다.
+		return ResultData.from("S-1", Ut.f("%d번 게시물 입니다.", id), article,"Article");// 게시글이 있을때는 해당게시글까지 포함해서 3개인자를 넘겨준다.
 
 	}
 

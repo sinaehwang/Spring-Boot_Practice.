@@ -25,7 +25,7 @@ public class ArticleService {
 
 		int id = articleRepository.getLastInsertId();// 실제 작성쿼리 실행후 가져오는 id를 새 변수 id에 담는다.
 
-		return ResultData.from("S-2", Ut.f("%d번째 게시글이 작성되었습니다.", id), id);// id정보를 비고사항으로 controller에 넘겨준다.
+		return ResultData.from("S-2", Ut.f("%d번째 게시글이 작성되었습니다.", id), id,"Article");// id정보를 비고사항으로 controller에 넘겨준다.
 
 	}
 
@@ -41,7 +41,7 @@ public class ArticleService {
 
 		Article article = getArticle(id);// id를 기반으로 수정한 게시글을 가져온다.
 
-		return ResultData.from("S-4", Ut.f("%d번 게시글이 수정되었습니다.", id), article);
+		return ResultData.from("S-4", Ut.f("%d번 게시글이 수정되었습니다.", id), article,"Article");
 	}
 	
 	public ResultData actionCanModify(int loginedMemberId,Article article) {
@@ -53,8 +53,6 @@ public class ArticleService {
 		return ResultData.from("S-1", "해당 게시글 수정완료했습니다.");
 
 	}
-	
-	
 
 	public Article getArticle(int id) {
 

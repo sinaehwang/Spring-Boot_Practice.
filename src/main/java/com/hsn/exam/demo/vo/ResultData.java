@@ -10,6 +10,8 @@ public class ResultData<DT> {//제너릭
 	private String msg; //성공,실패에 대한 메세지를 보여주기위해서
 	@Getter
 	private DT data1; //성공시 해당데이터를 보여주기위해서
+	@Getter
+	private String data1Name;//성공시 해당데이터의 Name을 보여준다
 	
 	private ResultData() {
 		
@@ -17,24 +19,22 @@ public class ResultData<DT> {//제너릭
 
 	public static <DT>ResultData<DT> from(String resultCode, String msg) {
 
-		return from(resultCode, msg,null);
+		return from(resultCode, msg,null,null);
 	}
 	
-	public static <DT>ResultData<DT> from(String resultCode, String msg, DT data1) {
+	public static <DT>ResultData<DT> from(String resultCode, String msg, DT data1,String data1Name) {
 		ResultData<DT> rd = new ResultData<DT>(); //매개변수 3개를 받아서 해당매개변수들로 새로운 객체하나를 만들어서 만들어진 객체를 리턴해준다. 
 		rd.resultCode = resultCode;
 		rd.msg = msg;
 		rd.data1 = data1;
+		rd.data1Name = data1Name;
 		
 		return rd;
 	}
 	
 	public static <DT>ResultData<DT> newData(ResultData joinData, DT newData) {//멤버타입외에도 다른타입이 들어올수있도록 Object형태로 만듬
 		
-		
-		return from(joinData.getResultCode(),joinData.getMsg(),newData);//joinData에있는 결과토드랑 메세지를 보여주고,회원정보를 데이터로 보여줌
-		
-		
+		return from(joinData.getResultCode(),joinData.getMsg(),newData,joinData.getData1Name());//joinData에있는 결과토드랑 메세지를 보여주고,회원정보를 데이터로 보여줌
 	}
 
 	public boolean isSuccess() {//성공메소드는 참일때 

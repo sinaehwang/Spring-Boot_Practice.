@@ -48,7 +48,7 @@ public class MemberService {
 			
 			 int id = memberRepository.getLastMemberId();
 			
-			return ResultData.from("S-4",Ut.f("%d번째 회원 가입완료", id),id);
+			return ResultData.from("S-4",Ut.f("%d번째 회원 가입완료", id),id,"Member");
 	}
 
 	public Member getMemberById(int id) {
