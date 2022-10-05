@@ -124,18 +124,21 @@ public class UsrArticleController {
 		}
 
 		Article article = articleService.getArticle(id);
-
+		
 		if (article == null) {
-			
+
 			return ResultData.from("F-4", Ut.f("%d번 게시글은 존재하지 않습니다.", id));
 		}
 		
-		if(article.getMemberId()!=loginedMemberId) {
-			return ResultData.from("F-5", "해당게시글에 대한 권한이 없습니다.");
+		ResultData actionCanModifyRd =articleService.actionCanModify(loginedMemberId,article);//Service에서 게시글 수정권한을 체크하기위해서
+
+		if(actionCanModifyRd.isFail()) {//게시글권한이 없으면 F로시작되는 코드가 리턴될것이기 때문에 ResultData 실패코드를 그대로 리턴해준다.
+			
+			return actionCanModifyRd;
 		}
 		
-		return articleService.modifyArticle(id, title, body);
-
+		return articleService.modifyArticle(id, title, body);//권한체크가 성공한다면 실제 수정기능 로직실행이됨
+		
 	}
 
 	@RequestMapping("/usr/article/getArticle")

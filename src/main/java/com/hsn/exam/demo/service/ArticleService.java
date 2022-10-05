@@ -11,51 +11,65 @@ import com.hsn.exam.demo.vo.ResultData;
 
 @Service
 public class ArticleService {
-	
+
 	private ArticleRepository articleRepository;
-	
-	public ArticleService(ArticleRepository articleRepository) {//넘겨받은 다음에 프라이빗articleRepository에 저장후 사용
+
+	public ArticleService(ArticleRepository articleRepository) {// 넘겨받은 다음에 프라이빗articleRepository에 저장후 사용
 		this.articleRepository = articleRepository;
-		
+
+	}
+
+	public ResultData<Integer> writeArticle(String title, String body, int memberId) { // 게시물작성로직이 중복되어 함수로 구현함
+
+		articleRepository.writeArticle(title, body, memberId);
+
+		int id = articleRepository.getLastInsertId();// 실제 작성쿼리 실행후 가져오는 id를 새 변수 id에 담는다.
+
+		return ResultData.from("S-2", Ut.f("%d번째 게시글이 작성되었습니다.", id), id);// id정보를 비고사항으로 controller에 넘겨준다.
+
+	}
+
+	public void deleteArticle(int id) {
+
+		articleRepository.deleteArticle(id);
+
+	}
+
+	public ResultData<Article> modifyArticle(int id, String title, String body) {
+
+		articleRepository.modifyArticle(id, title, body);
+
+		Article article = getArticle(id);// id를 기반으로 수정한 게시글을 가져온다.
+
+		return ResultData.from("S-4", Ut.f("%d번 게시글이 수정되었습니다.", id), article);
 	}
 	
-	public ResultData<Integer> writeArticle(String title,String body,int memberId) { //게시물작성로직이 중복되어 함수로 구현함
-		
-		articleRepository.writeArticle(title,body,memberId);
-		
-		 int id = articleRepository.getLastInsertId();//실제 작성쿼리 실행후 가져오는 id를 새 변수 id에 담는다.
-		 
-		 return ResultData.from("S-2", Ut.f("%d번째 게시글이 작성되었습니다.", id),id);//id정보를 비고사항으로 controller에 넘겨준다.
+	public ResultData actionCanModify(int loginedMemberId,Article article) {
+
+		if (article.getMemberId()!=loginedMemberId) {
+			return ResultData.from("F-5", "해당게시글에 대한 권한이 없습니다.");
+		}
+
+		return ResultData.from("S-1", "해당 게시글 수정완료했습니다.");
 
 	}
 	
-	public void deleteArticle(int id) {
-		 
-		articleRepository.deleteArticle(id);
-		
-	}
 	
-	public ResultData<Article> modifyArticle(int id,String title, String body) {
-		
-		articleRepository.modifyArticle(id,title,body);
-		
-		Article article = getArticle(id);//id를 기반으로 수정한 게시글을 가져온다.
-		
-		return ResultData.from("S-4", Ut.f("%d번 게시글이 수정되었습니다.", id),article);
-	}
-	
+
 	public Article getArticle(int id) {
-		
+
 		return articleRepository.getArticle(id);
-		
+
 	}
 
 	public List<Article> getArticles() {
-		
-		List<Article>articles=articleRepository.getArticles();//쿼리로 가져온 리스트들을 새 리스트 articles변수에 담는다.
-		
+
+		List<Article> articles = articleRepository.getArticles();// 쿼리로 가져온 리스트들을 새 리스트 articles변수에 담는다.
+
 		return articles;
-		
+
 	}
+
+
 
 }
