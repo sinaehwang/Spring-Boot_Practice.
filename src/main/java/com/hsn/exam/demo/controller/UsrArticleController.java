@@ -70,6 +70,26 @@ public class UsrArticleController {
 		return "usr/article/list";  //jsp로 구현한다.
 
 	}
+	
+	@RequestMapping("/usr/article/detail")
+	public String ArticleDetail(Model model,int id) {
+
+		Article article = articleService.getArticle(id);
+		
+		model.addAttribute("article",article);
+		
+		return "usr/article/detail";//jsp로 구현
+
+		//if (article == null) {
+
+			//return ResultData.from("F-1", Ut.f("%d번 게시물은 존재하지 않습니다.", id));// 2개인자로 받는 from()함수를 실행시키고 리턴으로 data1를
+																			// null값으로 주는 3개인자from()실행
+		//}
+
+		//return ResultData.from("S-1", Ut.f("%d번 게시물 입니다.", id), article,"Article");// 게시글이 있을때는 해당게시글까지 포함해서 3개인자를 넘겨준다.
+
+	}
+	
 
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
