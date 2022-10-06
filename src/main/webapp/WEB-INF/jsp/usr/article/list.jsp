@@ -10,6 +10,13 @@
 </head>
 <body>
   <h1>List</h1>
+  <head><a href="/">로고</a>
+  <ul>
+  	<li><a href="/">HOME</a></li>
+  	<li><a href="/usr/artilce/list">리스트페이지</a></li>
+  </ul>
+  </head>
+  
   <table border="5">
     <thead>
       <tr>
