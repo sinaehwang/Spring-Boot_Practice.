@@ -13,7 +13,8 @@
   <h1>Detail</h1>
   <table border="1">
   <colgroup>
-  <col width="200">
+  <col width="100">
+   <col width="300">
   </colgroup>
     <tbody>
       <tr>
@@ -37,14 +38,15 @@
         <td>${article.updateDate.substring(0,10)}</td>
       </tr>
       <tr>
-      <th>작성자</th>
-      <td>${article.memberId}</td>
+        <th>작성자</th>
+        <td>${article.memberId}</td>
       </tr>
     </tbody>
   </table>
   
   <div class="btns">
       <button type="button" onclick="history.back();">뒤로가기</button>
+      <button type="button" onclick="location.href='../home/main' ">HOME</button>
     </div>
 </body>
 </html>
