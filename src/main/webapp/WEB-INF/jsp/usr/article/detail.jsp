@@ -1,16 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-  pageEncoding="UTF-8"
-%>
+  pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!--커스텀액션을 사용하겠다는 정의  -->
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Detail</title>
-</head>
-<body>
-  <h1>Detail</h1>
+<c:set var="pageTitle" value="게시글상세페이지"/>
+<%@ include file="../common/head.jspf" %>
+  
+  <h1>상세페이지</h1>
   <table border="1">
   <colgroup>
   <col width="100">
@@ -48,5 +42,4 @@
       <button type="button" onclick="history.back();">뒤로가기</button>
       <button type="button" onclick="location.href='../home/main' ">HOME</button>
     </div>
-</body>
-</html>
+<%@ include file="../common/foot.jspf" %>
