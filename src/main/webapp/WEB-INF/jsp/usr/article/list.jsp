@@ -1,28 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-  pageEncoding="UTF-8"
-%>
+  pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> <!--커스텀액션을 사용하겠다는 정의  -->
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>List</title>
-
-<link rel="stylesheet" href="/resource/commom.css">
-<script src="/resource/commom.js"></script>
-
-
-</head>
-<body>
-  <h1>List</h1>
-  
-   <head><a href="/">로고</a>
-  <ul>
-  	<li><a href="/">HOME</a></li>
-  	<li><a href="/usr/artilce/list">리스트페이지</a></li>
-  </ul>
-  </head>
-  
+<c:set var="pageTitle" value = "게시물리스트"/>
+ <%@ include file="../common/head.jspf" %>
   <table border="5">
     <thead>
       <tr>
@@ -47,5 +27,4 @@
      </c:forEach>
     </tbody>
   </table>
-</body>
-</html>
+ <%@ include file="../common/foot.jspf" %>
