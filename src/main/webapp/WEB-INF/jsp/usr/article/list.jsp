@@ -7,10 +7,16 @@
 <head>
 <meta charset="UTF-8">
 <title>List</title>
+
+<link rel="stylesheet" href="/resource/commom.css">
+<script src="/resource/commom.js"></script>
+
+
 </head>
 <body>
   <h1>List</h1>
-  <head><a href="/">로고</a>
+  
+   <head><a href="/">로고</a>
   <ul>
   	<li><a href="/">HOME</a></li>
   	<li><a href="/usr/artilce/list">리스트페이지</a></li>
