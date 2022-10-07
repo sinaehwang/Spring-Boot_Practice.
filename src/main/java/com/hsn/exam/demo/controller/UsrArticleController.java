@@ -61,7 +61,17 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String getArticles(Model model) {//Model클래스도입
+	public String getArticles(HttpSession httpsession,Model model) {//Model클래스도입
+		
+		boolean isLogined = false;// 로그인이 아닌상태로 가정
+
+		int loginedMemberId = 0;
+
+		if (httpsession.getAttribute("loginedMemberId") != null) {// 로그인 상태 유무판별하기 위해서 session사용,널값이 아니면 로그인상태이다.
+			isLogined = true;// 로그인상태
+
+			loginedMemberId = (int) httpsession.getAttribute("loginedMemberId");// 로그인된 회원의 번호를 저장해놓는다.
+		}
 
 		List<Article> articles = articleService.getArticles();
 		
