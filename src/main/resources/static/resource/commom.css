@@ -25,3 +25,11 @@ html>body {
 	padding:10px;
 	text-align: center;
 }
+
+.btn-text-link {
+  color:blue;
+}
+
+.btn-text-link:hover {
+  text-decoration: underline;
+}

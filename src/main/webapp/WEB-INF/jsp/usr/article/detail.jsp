@@ -43,6 +43,8 @@
   <div class="btns mt-5">
       <button type="button" onclick="history.back();">뒤로가기</button>
       <button type="button" onclick="location.href='../home/main' ">HOME</button>
+      <a class="btn-text-link ml-2"  href= "../article/modify?id=${article.id}">게시물 수정하기</a>
+      <a onclick="if ( confirm('게시물을 삭제하시겠습니까?') == false ) { return false; }" href="../article/doDelete?id=${article.id}" class="btn-text-link ml-2">게시물 삭제</a>
   </div>
   
   </div>
