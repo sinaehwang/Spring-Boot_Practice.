@@ -13,8 +13,12 @@
 	</insert>
 	
 	<select id="getArticle" resultType = "Article">
-	SELECT * FROM article 
-	WHERE id = #{id}
+	SELECT article.*,`member`.nickname 
+	AS extra_writerName 
+	FROM article 
+	LEFT JOIN `member` 
+	ON article.memberId = `member`.Id
+	WHERE article.id = #{id}
 	</select>
 	
 	<delete id ="deleteArticle">
@@ -37,8 +41,11 @@
 	</update>
 	
 	<select id ="getArticles" resultType = "Article"> 
-	SELECT * FROM article 
-	ORDER BY id DESC
+	SELECT article.*,`member`.nickname 
+	AS extra_writerName 
+	FROM article LEFT JOIN `member` 
+	ON article.memberId = `member`.Id
+	ORDER BY article.id DESC
 	</select>
 	
 	<select id = "getLastInsertId" resultType = "int">

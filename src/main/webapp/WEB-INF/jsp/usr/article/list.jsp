@@ -6,7 +6,14 @@
  <section class="mt-5"  >
     <div class="container mx-auto px-3">
     <div class = "table-box-type-1 ">
-  <table class="5">
+  <table>
+  <colgroup>
+    <col width="50">
+    <col width="150">
+    <col width="100">
+    <col width="100">
+    <col width="50">
+  </colgroup>
     <thead>
       <tr>
         <th>번호</th>
@@ -25,7 +32,7 @@
         </td>
         <td>${article.regDate.substring(0,10)}</td>
         <td>${article.updateDate.substring(0,10)}</td>
-        <td>${article.memberId}</td>
+        <td>${article.extra_writerName }</td>
       </tr>
      </c:forEach>
     </tbody>

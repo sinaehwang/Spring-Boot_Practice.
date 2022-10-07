@@ -1,9 +1,9 @@
 ```sql
 # DB 생성
-DROP DATABASE IF EXISTS sbs_s_2021_10_t;
-CREATE DATABASE sbs_s_2021_10_t;
-USE sbs_s_2021_10_t;
-
+DROP DATABASE IF EXISTS SBTest;
+DROP TABLE SBTest;
+CREATE DATABASE SBTest;
+USE SBTest;
 # 게시물 테이블 생성
 CREATE TABLE article (
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -12,31 +12,25 @@ CREATE TABLE article (
     title CHAR(100) NOT NULL,
     `body` TEXT NOT NULL
 );
-
 # 게시물 테스트 데이터 생성
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
 title = '제목1',
 `body` = '내용1';
-
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
 title = '제목2',
 `body` = '내용2';
-
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
 title = '제목3',
 `body` = '내용3';
-
 SELECT * 
 FROM article;
-
 SELECT LAST_INSERT_ID()
-
 # 회원 테이블 생성
 CREATE TABLE `member` (
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -52,7 +46,6 @@ CREATE TABLE `member` (
     delStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '탈퇴여부(0=탈퇴전,1=탈퇴)',
     delDate DATETIME COMMENT '탈퇴날짜'
 );
-
 # 회원 테스트 데이터 생성(관리자 회원)
 INSERT INTO `member`
 SET regDate = NOW(),
@@ -64,7 +57,6 @@ loginPw = 'admin',
 `nickname` = '관리자',
 cellphoneNum = '01012341234',
 email = 'abcdef@gmail.com';
-
 # 회원 테스트 데이터 생성(일반 회원)
 INSERT INTO `member`
 SET regDate = NOW(),
@@ -75,7 +67,6 @@ loginPw = 'user1',
 `nickname` = '사용자1',
 cellphoneNum = '01043214321',
 email = 'fedcba@gmail.com';
-
 INSERT INTO `member`
 SET regDate = NOW(),
 updateDate = NOW(),
@@ -85,13 +76,16 @@ loginPw = 'user2',
 `nickname` = '사용자2',
 cellphoneNum = '01098769876',
 email = 'zxcvbnm@gmail.com';
-
 SELECT*FROM `member`
-
 #게시물테이블에 회원정보(memberId)추가
 ALTER TABLE article ADD COLUMN memberId INT(10) UNSIGNED NOT NULL AFTER updateDate;
-
 #기존 게시물의 작성자를 2번으로 수정
 UPDATE article SET memberId = 2 WHERE memberId=0
+
+#게시글에 작성자명 표시(extra_writerName 추가)
+
+SELECT article.*,`member`.nickname AS extra_writerName 
+FROM article LEFT JOIN `member` ON article.memberId = `member`.Id
+
 ```
 

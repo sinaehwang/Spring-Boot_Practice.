@@ -1,14 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
   pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:set var="pageTitle" value="게시글상세페이지"/>
+<c:set var="pageTitle" value="게시글 상세페이지"/>
 <%@ include file="../common/head.jspf" %>
-  
-  <h1>상세페이지</h1>
-  <table border="1">
+
+ <section class="mt-5"  >
+    <div class="container mx-auto px-3">
+    <div class = "table-box-type-1 ">
+  <table>
   <colgroup>
-  <col width="100">
-   <col width="300">
+       <col width="100">
   </colgroup>
     <tbody>
       <tr>
@@ -33,13 +34,19 @@
       </tr>
       <tr>
         <th>작성자</th>
-        <td>${article.memberId}</td>
+        <td>${article.extra_writerName}</td>
       </tr>
     </tbody>
   </table>
+  </div>
   
-  <div class="btns">
+  <div class="btns mt-5">
       <button type="button" onclick="history.back();">뒤로가기</button>
       <button type="button" onclick="location.href='../home/main' ">HOME</button>
-    </div>
+  </div>
+  
+  </div>
+ </section>
+   
+
 <%@ include file="../common/foot.jspf" %>
