@@ -54,7 +54,7 @@ public class UsrArticleController {
 
 		int id = (int) writeData.getData1();// int로 형변환이 필요함
 
-		Article article = articleService.getArticle(id);
+		Article article = articleService.getForPrintArticle(id,loginedMemberId);
 
 		return ResultData.newData(writeData, article); // 성공했을때 해당게시글까지 넘겨줘서 보여지도록
 
@@ -73,7 +73,7 @@ public class UsrArticleController {
 			loginedMemberId = (int) httpsession.getAttribute("loginedMemberId");// 로그인된 회원의 번호를 저장해놓는다.
 		}
 
-		List<Article> articles = articleService.getArticles();
+		List<Article> articles = articleService.getForPrintArticles(loginedMemberId);
 		
 		model.addAttribute("articles",articles);//list.jsp에서 불러올수있음
 		
@@ -82,9 +82,20 @@ public class UsrArticleController {
 	}
 	
 	@RequestMapping("/usr/article/detail")
-	public String ArticleDetail(Model model,int id) {
+	public String ArticleDetail(HttpSession httpsession,Model model,int id) {
+		
+		boolean isLogined = false;// 로그인이 아닌상태로 가정
 
-		Article article = articleService.getArticle(id);
+		int loginedMemberId = 0;
+
+		if (httpsession.getAttribute("loginedMemberId") != null) {// 로그인 상태 유무판별하기 위해서 session사용,널값이 아니면 로그인상태이다.
+			isLogined = true;// 로그인상태
+
+			loginedMemberId = (int) httpsession.getAttribute("loginedMemberId");// 로그인된 회원의 번호를 저장해놓는다.
+			
+		}
+
+		Article article = articleService.getForPrintArticle(id,loginedMemberId);
 		
 		model.addAttribute("article",article);
 		
@@ -119,7 +130,7 @@ public class UsrArticleController {
 			return ResultData.from("F-3", "로그인후 이용해주시기 바랍니다.");
 		}
 
-		Article article = articleService.getArticle(id); // id를 기반으로 article을 찾는 함수
+		Article article = articleService.getForPrintArticle(id,loginedMemberId); // id를 기반으로 article을 찾는 함수
 
 		if (article == null) {
 
@@ -153,7 +164,7 @@ public class UsrArticleController {
 			return ResultData.from("F-3", "로그인후 이용해주시기 바랍니다.");
 		}
 
-		Article article = articleService.getArticle(id);
+		Article article = articleService.getForPrintArticle(id,loginedMemberId);
 		
 		if (article == null) {
 
@@ -167,15 +178,25 @@ public class UsrArticleController {
 			return actionCanModifyRd;
 		}
 		
-		return articleService.modifyArticle(id, title, body);//권한체크가 성공한다면 실제 수정기능 로직실행이됨
+		return articleService.modifyArticle(id, title, body,loginedMemberId);//권한체크가 성공한다면 실제 수정기능 로직실행이됨
 		
 	}
 
 	@RequestMapping("/usr/article/getArticle")
 	@ResponseBody
-	public ResultData<Article> getArticle(int id) {// ResultData클래스타입으로 바꾸고 from()리턴타입으로 맞춰줘야함
+	public ResultData<Article> getArticle(HttpSession httpsession,int id) {// ResultData클래스타입으로 바꾸고 from()리턴타입으로 맞춰줘야함
+		
+		boolean isLogined = false;// 로그인이 아닌상태로 가정
 
-		Article article = articleService.getArticle(id);
+		int loginedMemberId = 0;
+
+		if (httpsession.getAttribute("loginedMemberId") != null) {// 로그인 상태 유무판별하기 위해서 session사용,널값이 아니면 로그인상태이다.
+			isLogined = true;// 로그인상태
+
+			loginedMemberId = (int) httpsession.getAttribute("loginedMemberId");
+		}
+
+		Article article = articleService.getForPrintArticle(id,loginedMemberId);
 
 		if (article == null) {
 

@@ -11,7 +11,7 @@ public interface ArticleRepository {
 
 	public void writeArticle(String title,String body,int memberId); //리턴타입이 없기때문에 id를 생성할수없어 타입오류가 발생됨
 	
-	public Article getArticle(int id);
+	public Article getForPrintArticle(int id);
 	
 	public Article deleteArticle(int id);
 

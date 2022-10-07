@@ -12,7 +12,7 @@
 	`body` =#{body}
 	</insert>
 	
-	<select id="getArticle" resultType = "Article">
+	<select id="getForPrintArticle" resultType = "Article">
 	SELECT article.*,`member`.nickname 
 	AS extra_writerName 
 	FROM article 

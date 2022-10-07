@@ -35,11 +35,11 @@ public class ArticleService {
 
 	}
 
-	public ResultData<Article> modifyArticle(int id, String title, String body) {
+	public ResultData<Article> modifyArticle(int id, String title, String body,int loginedMemberId) {
 
 		articleRepository.modifyArticle(id, title, body);
 
-		Article article = getArticle(id);// id를 기반으로 수정한 게시글을 가져온다.
+		Article article = getForPrintArticle(id, loginedMemberId);// id를 기반으로 수정한 게시글을 가져온다.
 
 		return ResultData.from("S-4", Ut.f("%d번 게시글이 수정되었습니다.", id), article,"Article");
 	}
@@ -54,18 +54,52 @@ public class ArticleService {
 
 	}
 
-	public Article getArticle(int id) {
+	public Article getForPrintArticle(int id, int loginedMemberId) {
 
-		return articleRepository.getArticle(id);
+		Article article = articleRepository.getForPrintArticle(id);
+		
+		upDateArticle(article, loginedMemberId);
+		
+		return article;
 
 	}
 
-	public List<Article> getArticles() {
+	public List<Article> getForPrintArticles(int loginedMemberId) { //컨트롤러에서부터 저장된 세션 loginedMemberId 상태를 전달받는다.
 
-		List<Article> articles = articleRepository.getArticles();// 쿼리로 가져온 리스트들을 새 리스트 articles변수에 담는다.
+		List<Article> articles = articleRepository.getArticles();// 쿼리로 가져온 리스트들을 먼저 가져오고
+		
+		for(Article article : articles) {
+			
+			upDateArticle(article,loginedMemberId); //리턴전에 로그인 멤버와 게시글의 회원번호가 동일한지 확인후 article의 권한체크 CanDoDelete값을 세팅함
+		}
 
 		return articles;
 
+	}
+
+	private void upDateArticle(Article article , int loginedMemberId) {
+		
+		if(article==null) {
+			
+			return;
+		}
+		
+		ResultData actorCanDeletedRd = actorCanDelete(article,loginedMemberId);
+		
+		article.setExtra__actorCanDelete(actorCanDeletedRd.isSuccess());
+		
+		
+	}
+
+	private ResultData actorCanDelete(Article article, int loginedMemberId) {
+		
+		if(article == null) {
+			return ResultData.from("F-1", "게시물이 존재하지 않습니다.");
+		}
+		if(article.getMemberId() != loginedMemberId) {
+			return ResultData.from("F-2", "해당게시물 권한이 없습니다.");
+		}
+		return ResultData.from("S-1", "삭제가능");
 	}
 
 

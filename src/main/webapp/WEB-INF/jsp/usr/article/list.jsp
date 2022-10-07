@@ -28,7 +28,7 @@
       <tr>
         <td>${article.id}</td>
         <td>
-        <a href="../article/detail?id=${article.id}">${article.title}</a> <!--제목클릭시 해당게시글상세페이지에 넘어가도록  -->
+        <a class ="btn-text-link" href="../article/detail?id=${article.id}">${article.title}</a> <!--제목클릭시 해당게시글상세페이지에 넘어가도록  -->
         </td>
         <td>${article.regDate.substring(0,10)}</td>
         <td>${article.updateDate.substring(0,10)}</td>
