@@ -142,6 +142,24 @@ public class UsrArticleController {
 		}
 
 		articleService.deleteArticle(id); // 찾은 id를 인자로 주고 실제 삭제하는 함수 실행시킴
+		
+		//자바스크립트 코드사용
+		String script = """
+				
+			<script>
+				const msg = '%s'.trim();
+				
+				if(msg>0){
+				alert.console(msg);
+				}
+				
+				history.back();
+				
+			</script>
+				
+				""";
+		Ut.f(script, msg);//모든 컨트롤 작업마다 메세지가 다르기 때문에 함수화를 시켜주는게 좋음
+		
 
 		return ResultData.from("S-1", Ut.f("%d번 게시글이 삭제되었습니다.", id));
 	}
