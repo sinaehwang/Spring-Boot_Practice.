@@ -114,7 +114,7 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public ResultData doDelete(HttpSession httpsession, int id) {
+	public String doDelete(HttpSession httpsession, int id) {
 
 		boolean isLogined = false;// 로그인이 아닌상태로 가정
 
@@ -127,23 +127,33 @@ public class UsrArticleController {
 		}
 
 		if (isLogined == false) {// "로그인상태가 아니다"가 참이라면,
-			return ResultData.from("F-3", "로그인후 이용해주시기 바랍니다.");
+			
+			//자바스크립트 코드사용
+			String script = """
+					
+				<script>
+					const msg = '%s'.trim();
+					
+					if(msg>0){
+					alert.console(msg);
+					}
+					
+					history.back();
+					
+				</script>
+					
+					""";
+			return Ut.f(script, "로그인후 이용해주시기 바랍니다.");//모든 컨트롤 작업마다 메세지가 다르기 때문에 함수화를 시켜주는게 좋음
+			
+			//return ResultData.from("F-3", "로그인후 이용해주시기 바랍니다.");
 		}
 
 		Article article = articleService.getForPrintArticle(id,loginedMemberId); // id를 기반으로 article을 찾는 함수
 
-		if (article == null) {
-
-			return ResultData.from("F-4", Ut.f("%d번 게시글은 존재하지 않습니다.", id));
-		}
-
-		if (loginedMemberId != article.getMemberId()) {
-			return ResultData.from("F-3", "해당게시글에 대한 권한이 없습니다.");
-		}
-
-		articleService.deleteArticle(id); // 찾은 id를 인자로 주고 실제 삭제하는 함수 실행시킴
-		
 		//자바스크립트 코드사용
+		
+		if(article==null) {
+		
 		String script = """
 				
 			<script>
@@ -158,10 +168,39 @@ public class UsrArticleController {
 			</script>
 				
 				""";
-		Ut.f(script, msg);//모든 컨트롤 작업마다 메세지가 다르기 때문에 함수화를 시켜주는게 좋음
+		return Ut.f(script, "해당 게시글은 존재하지 않습니다.");//모든 컨트롤 작업마다 메세지가 다르기 때문에 함수화를 시켜주는게 좋음
+
+			//return ResultData.from("F-4", Ut.f("%d번 게시글은 존재하지 않습니다.", id));
+		}
+
+		if (loginedMemberId != article.getMemberId()) {
+			
+			//자바스크립트 코드사용
+			String script = """
+					
+				<script>
+					const msg = '%s'.trim();
+					
+					if(msg>0){
+					alert.console(msg);
+					}
+					
+					history.back();
+					
+				</script>
+					
+					""";
+			return Ut.f(script, "해당게시글에 대한 권한이 없습니다.");//모든 컨트롤 작업마다 메세지가 다르기 때문에 함수화를 시켜주는게 좋음
+			
+			//return ResultData.from("F-3", "해당게시글에 대한 권한이 없습니다.");
+		}
+
+		articleService.deleteArticle(id); // 찾은 id를 인자로 주고 실제 삭제하는 함수 실행시킴
+		
+		return Ut.jsLocationReplace(Ut.f("%d번 게시글이 삭제되었습니다.", id), "/usr/article/list");//모든 컨트롤 작업마다 메세지가 다르기 때문에 함수화를 시켜주는게 좋음
 		
 
-		return ResultData.from("S-1", Ut.f("%d번 게시글이 삭제되었습니다.", id));
+		//return ResultData.from("S-1", Ut.f("%d번 게시글이 삭제되었습니다.", id));
 	}
 
 	@RequestMapping("/usr/article/doModify")

@@ -27,9 +27,52 @@ public class Ut {
 			 */
 	}
 
-	public static String f(String format, Object... args) {//포맷을 받는 format과 여러가지 매개변수를 받을수 있는 Object...인자로 만든다.
+	public static String f(String format,Object... args) {//포맷을 받는 format과 여러가지 매개변수를 받을수 있는 Object...인자로 만든다.
 		
 		return String.format(format,args); //문장과 여러개 인자를 입력해서 그대로 리턴해준다.
 	}
+	
+	public static String jsHistoryBack(String msg) {
+		
+		String script = """
+				
+				<script>
+					const msg = '%s'.trim();
+					
+					if(msg>0){
+					alert.console(msg);
+					}
+					
+					history.back();
+					
+				</script>
+					
+					""";
 
+		return Ut.f(script, msg);
+		
+	}
+	
+	public static String jsLocationReplace(String msg,String url) {
+		
+		String script = """
+				
+				<script>
+					const msg = '%s'.trim();
+					
+					if(msg.length>0){
+						alert(msg);
+					}
+					
+					location.replace('%s');
+					
+				</script>
+					
+					""";
+
+		return Ut.f(script, msg, url);
+		
+	}
+
+		
 }
