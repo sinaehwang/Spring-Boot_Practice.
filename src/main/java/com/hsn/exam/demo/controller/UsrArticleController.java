@@ -2,6 +2,7 @@ package com.hsn.exam.demo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,19 +25,11 @@ public class UsrArticleController {
 	// 액션 메소드
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
-	public ResultData doAdd(HttpSession httpsession, String title, String body) {
+	public ResultData doAdd(HttpServletRequest req, String title, String body) {
+		
+		Rq rq = new Rq(req);
 
-		boolean isLogined = false;// 로그인이 아닌상태로 가정
-
-		int loginedMemberId = 0;
-
-		if (httpsession.getAttribute("loginedMemberId") != null) {// 로그인 상태 유무판별하기 위해서 session사용,널값이 아니면 로그인상태이다.
-			isLogined = true;// 로그인상태
-
-			loginedMemberId = (int) httpsession.getAttribute("loginedMemberId");// 로그인된 회원의 번호를 저장해놓는다.
-		}
-
-		if (isLogined == false) {// "로그인상태가 아니다"가 참이라면,
+		if (rq.isLogined() == false) {//rq클래스를 통해서  로그인 상태 정보를 가져와야함
 			return ResultData.from("F-3", "로그인후 이용해주시기 바랍니다.");
 		}
 
@@ -48,13 +41,11 @@ public class UsrArticleController {
 			return ResultData.from("F-2", "내용을 입력해주세요");
 		}
 
-		ResultData<Integer> writeData = articleService.writeArticle(title, body, loginedMemberId);// writeData안에는 서비스에서
-																									// 넘겨준 작성글 id가
-																									// Data1에 들어있다
+		ResultData<Integer> writeData = articleService.writeArticle(title, body, rq.getLoginedMemberId());//rq클래스를 통해서  로그인 멤버Id 정보를 가져와야함
 
 		int id = (int) writeData.getData1();// int로 형변환이 필요함
 
-		Article article = articleService.getForPrintArticle(id,loginedMemberId);
+		Article article = articleService.getForPrintArticle(id,rq.getLoginedMemberId());
 
 		return ResultData.newData(writeData, article); // 성공했을때 해당게시글까지 넘겨줘서 보여지도록
 
