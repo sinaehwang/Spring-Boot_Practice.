@@ -34,13 +34,18 @@ public class Ut {
 	
 	public static String jsHistoryBack(String msg) {
 		
+		if(msg == null) {
+			
+			msg = "";
+		}
+		
 		String script = """
 				
 				<script>
 					const msg = '%s'.trim();
 					
-					if(msg>0){
-					alert.console(msg);
+					if(msg.length>0){
+					alert(msg);
 					}
 					
 					history.back();
