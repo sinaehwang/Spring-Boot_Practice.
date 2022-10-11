@@ -3,7 +3,6 @@ package com.hsn.exam.demo.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,19 +51,11 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String getArticles(HttpSession httpsession,Model model) {//Model클래스도입
-		
-		boolean isLogined = false;// 로그인이 아닌상태로 가정
+	public String getArticles(HttpServletRequest req,Model model) {//Model클래스도입
 
-		int loginedMemberId = 0;
+		Rq rq = new Rq(req);
 
-		if (httpsession.getAttribute("loginedMemberId") != null) {// 로그인 상태 유무판별하기 위해서 session사용,널값이 아니면 로그인상태이다.
-			isLogined = true;// 로그인상태
-
-			loginedMemberId = (int) httpsession.getAttribute("loginedMemberId");// 로그인된 회원의 번호를 저장해놓는다.
-		}
-
-		List<Article> articles = articleService.getForPrintArticles(loginedMemberId);
+		List<Article> articles = articleService.getForPrintArticles(rq.getLoginedMemberId());
 		
 		model.addAttribute("articles",articles);//list.jsp에서 불러올수있음
 		
@@ -73,58 +64,26 @@ public class UsrArticleController {
 	}
 	
 	@RequestMapping("/usr/article/detail")
-	public String ArticleDetail(HttpSession httpsession,Model model,int id) {
+	public String ArticleDetail(HttpServletRequest req,Model model,int id) {
 		
-		boolean isLogined = false;// 로그인이 아닌상태로 가정
+		Rq rq = new Rq(req);
 
-		int loginedMemberId = 0;
-
-		if (httpsession.getAttribute("loginedMemberId") != null) {// 로그인 상태 유무판별하기 위해서 session사용,널값이 아니면 로그인상태이다.
-			isLogined = true;// 로그인상태
-
-			loginedMemberId = (int) httpsession.getAttribute("loginedMemberId");// 로그인된 회원의 번호를 저장해놓는다.
-			
-		}
-
-		Article article = articleService.getForPrintArticle(id,loginedMemberId);
+		Article article = articleService.getForPrintArticle(id,rq.getLoginedMemberId());
 		
 		model.addAttribute("article",article);
 		
 		return "usr/article/detail";//jsp로 구현
-
-		//if (article == null) {
-
-			//return ResultData.from("F-1", Ut.f("%d번 게시물은 존재하지 않습니다.", id));// 2개인자로 받는 from()함수를 실행시키고 리턴으로 data1를
-																			// null값으로 주는 3개인자from()실행
-		//}
-
-		//return ResultData.from("S-1", Ut.f("%d번 게시물 입니다.", id), article,"Article");// 게시글이 있을때는 해당게시글까지 포함해서 3개인자를 넘겨준다.
 
 	}
 	
 
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public String doDelete(HttpSession httpsession, int id) {
+	public String doDelete(HttpServletRequest req, int id) {
 
-		boolean isLogined = false;// 로그인이 아닌상태로 가정
+		Rq rq = new Rq(req);
 
-		int loginedMemberId = 0;
-
-		if (httpsession.getAttribute("loginedMemberId") != null) {// 로그인 상태 유무판별하기 위해서 session사용,널값이 아니면 로그인상태이다.
-			isLogined = true;// 로그인상태
-
-			loginedMemberId = (int) httpsession.getAttribute("loginedMemberId");
-		}
-
-		if (isLogined == false) {// "로그인상태가 아니다"가 참이라면,
-			
-			return Ut.jsHistoryBack("로그인후 이용해주시기 바랍니다.");
-			
-		}
-
-
-		Article article = articleService.getForPrintArticle(id,loginedMemberId); // id를 기반으로 article을 찾는 함수
+		Article article = articleService.getForPrintArticle(id,rq.getLoginedMemberId()); // id를 기반으로 article을 찾는 함수
 
 		
 		if(article==null) {
@@ -133,7 +92,7 @@ public class UsrArticleController {
 			
 			}
 
-		if (loginedMemberId != article.getMemberId()) {
+		if (rq.getLoginedMemberId() != article.getMemberId()) {
 			
 			return Ut.jsHistoryBack("해당게시글에 대한 권한이 없습니다.");
 			
@@ -147,55 +106,35 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public ResultData doModify(HttpSession httpsession,int id, String title, String body) {// 리턴타입을 String 과 Article 둘다 사용해야되기 때문에 Object타입을 사용함
+	public ResultData doModify(HttpServletRequest req,int id, String title, String body) {// 리턴타입을 String 과 Article 둘다 사용해야되기 때문에 Object타입을 사용함
 
-		boolean isLogined = false;// 로그인이 아닌상태로 가정
+		Rq rq = new Rq(req);
 
-		int loginedMemberId = 0;
-
-		if (httpsession.getAttribute("loginedMemberId") != null) {// 로그인 상태 유무판별하기 위해서 session사용,널값이 아니면 로그인상태이다.
-			isLogined = true;// 로그인상태
-
-			loginedMemberId = (int) httpsession.getAttribute("loginedMemberId");
-		}
-
-		if (isLogined == false) {// "로그인상태가 아니다"가 참이라면,
-			return ResultData.from("F-3", "로그인후 이용해주시기 바랍니다.");
-		}
-
-		Article article = articleService.getForPrintArticle(id,loginedMemberId);
+		Article article = articleService.getForPrintArticle(id,rq.getLoginedMemberId());
 		
 		if (article == null) {
 
 			return ResultData.from("F-4", Ut.f("%d번 게시글은 존재하지 않습니다.", id));
 		}
 		
-		ResultData actionCanModifyRd =articleService.actionCanModify(loginedMemberId,article);//Service에서 게시글 수정권한을 체크하기위해서
+		ResultData actionCanModifyRd =articleService.actionCanModify(rq.getLoginedMemberId(),article);//Service에서 게시글 수정권한을 체크하기위해서
 
 		if(actionCanModifyRd.isFail()) {//게시글권한이 없으면 F로시작되는 코드가 리턴될것이기 때문에 ResultData 실패코드를 그대로 리턴해준다.
 			
 			return actionCanModifyRd;
 		}
 		
-		return articleService.modifyArticle(id, title, body,loginedMemberId);//권한체크가 성공한다면 실제 수정기능 로직실행이됨
+		return articleService.modifyArticle(id, title, body,rq.getLoginedMemberId());//권한체크가 성공한다면 실제 수정기능 로직실행이됨
 		
 	}
 
 	@RequestMapping("/usr/article/getArticle")
 	@ResponseBody
-	public ResultData<Article> getArticle(HttpSession httpsession,int id) {// ResultData클래스타입으로 바꾸고 from()리턴타입으로 맞춰줘야함
+	public ResultData<Article> getArticle(HttpServletRequest req,int id) {// ResultData클래스타입으로 바꾸고 from()리턴타입으로 맞춰줘야함
 		
-		boolean isLogined = false;// 로그인이 아닌상태로 가정
+		Rq rq = new Rq(req);
 
-		int loginedMemberId = 0;
-
-		if (httpsession.getAttribute("loginedMemberId") != null) {// 로그인 상태 유무판별하기 위해서 session사용,널값이 아니면 로그인상태이다.
-			isLogined = true;// 로그인상태
-
-			loginedMemberId = (int) httpsession.getAttribute("loginedMemberId");
-		}
-
-		Article article = articleService.getForPrintArticle(id,loginedMemberId);
+		Article article = articleService.getForPrintArticle(id,rq.getLoginedMemberId());
 
 		if (article == null) {
 
