@@ -1,6 +1,9 @@
 package com.hsn.exam.demo.controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import lombok.Getter;
@@ -10,10 +13,16 @@ public class Rq {
 	private boolean isLogined;
 	@Getter
 	private int loginedMemberId;
+	
+	private HttpServletRequest req;
+	private HttpServletResponse res;
+	private HttpSession httpsession;
 
-	public Rq(HttpServletRequest req) {
+	public Rq(HttpServletRequest req, HttpServletResponse res) {//printHistoryBackjs을 위해 res 가져옴
 
-		HttpSession httpsession = req.getSession();
+		this.req = req;
+		this.res = res;
+		this.httpsession = req.getSession();
 		
 		boolean isLogined = false;//httpsession에 초기값 저장상태
 
@@ -29,5 +38,28 @@ public class Rq {
 		this.loginedMemberId = loginedMemberId;
 
 	}
+
+	public void printHistoryBackjs() {
+		
+		//자바스크립트로 로그인필요 경고창 띄우기
+		//getWriter 를 사용하기 위해서 try문으로 감싸줘야함, print 메소드로 한번더 추상화시킴
+		
+		res.setContentType("text/html; charset=utf-8"); //자바스크립트 한글사용하기 위해서 필요
+		print("<script> alert('로그인후 사용해주세요'); history.back(); </script>");
+		
+	}
+	
+	public void print(String msg) {
+		
+		try {
+			res.getWriter().append(msg);
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
 
 }

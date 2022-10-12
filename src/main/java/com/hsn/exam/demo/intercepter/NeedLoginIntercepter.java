@@ -15,7 +15,15 @@ public class NeedLoginIntercepter implements HandlerInterceptor {//핸들러(인
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 
-		System.out.println("로그인처리확인?");
+		Rq rq =(Rq)request.getAttribute("rq"); //공유중인 rq객체 불러오기
+		
+		if(rq.isLogined()==false) {//로그인이 안됬다면 자바스크립트로 경고창을 띄워주고 false를 리턴해준다.
+			
+			rq.printHistoryBackjs();
+			
+			return false;
+			
+		}
 		
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 	}

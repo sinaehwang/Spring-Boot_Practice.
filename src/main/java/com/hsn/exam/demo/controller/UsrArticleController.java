@@ -29,9 +29,9 @@ public class UsrArticleController {
 		
 		Rq rq = (Rq) req.getAttribute("rq");//비포인터셉터에서 저장한 rq(로그인로직)를 가져와서 사용하면 된다.
 
-		if (rq.isLogined() == false) {//rq클래스를 통해서  로그인 상태 정보를 가져와야함
-			return ResultData.from("F-3", "로그인후 이용해주시기 바랍니다.");
-		}
+		//if (rq.isLogined() == false) {//rq클래스를 통해서  로그인 상태 정보를 가져와야함
+		//	return ResultData.from("F-3", "로그인후 이용해주시기 바랍니다.");
+		//}
 
 		if (Ut.empty(title)) {// 값이 비어있거나 null인경우를 판단하는 함수로직실행
 			return ResultData.from("F-2", "제목을 입력해주세요");// 실패코드랑 메세지만 넘겨준다.

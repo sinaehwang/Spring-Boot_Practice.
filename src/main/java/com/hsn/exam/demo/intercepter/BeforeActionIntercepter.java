@@ -15,7 +15,7 @@ public class BeforeActionIntercepter implements HandlerInterceptor {//핸들러(
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 
-		Rq rq = new Rq(request);
+		Rq rq = new Rq(request,response);
 		
 		request.setAttribute("rq", rq); //서블릿request를 이용해 컨트롤러에서도 rq(로그인확인로직)를 공유할수 있도록 저장함
 		
