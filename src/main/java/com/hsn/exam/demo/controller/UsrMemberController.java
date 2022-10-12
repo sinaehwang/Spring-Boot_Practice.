@@ -68,7 +68,7 @@ public class UsrMemberController {
 	
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
-	public ResultData doLogin(HttpSession httpsession,String loginId,String loginPw) {
+	public String doLogin(HttpSession httpsession,String loginId,String loginPw) {
 		//1. 로그인 아이디/비번 일치여부부터 체크
 		//2. 로그인 완료 구현
 		boolean isLogined = false;//로그인이 아닌상태로 가정
@@ -78,34 +78,48 @@ public class UsrMemberController {
 		}
 		
 		if(isLogined) {
-			return ResultData.from("F-3", "이미 로그인 상태입니다.");
+			//return ResultData.from("F-3", "이미 로그인 상태입니다.");
+			return Ut.jsHistoryBack("이미 로그인 상태입니다.");
 		}
 		
 		if(Ut.empty(loginId)) { //아이디값을 매개변수로 주고 아이디에 Null여부를 판단하는 함수로 만듬
-			return ResultData.from("F-3", "아이디를 입력해주세요");
+			//return ResultData.from("F-3", "아이디를 입력해주세요");
+			return Ut.jsHistoryBack("아이디를 입력해주세요");
 		}
 		
 		if(Ut.empty(loginPw)) {
-			return ResultData.from("F-3", "패스워드를 입력해주세요");
+			//return ResultData.from("F-3", "패스워드를 입력해주세요");
+			return Ut.jsHistoryBack("패스워드를 입력해주세요");
 		}
 		
 		Member member = memberService.getMemberByLogId(loginId);//로그인파라미터값으로 멤버찾아오기
 		
 		if(member == null) {
 			
-			return ResultData.from("F-1", "존재하지 않는 아이디입니다.");
+			//return ResultData.from("F-1", "존재하지 않는 아이디입니다.");
+			return Ut.jsHistoryBack("존재하지 않는 아이디입니다.");
 		}
 
 		if(member.getLoginPw().equals(loginPw)==false) {//찾은멤버에서 비번을 가져오고,파라미터로 받은 비번과 일치여부 체크
 			
-			return ResultData.from("F-2", "비밀번호가 일치하지않습니다.");
+			//return ResultData.from("F-2", "비밀번호가 일치하지않습니다.");
+			return Ut.jsHistoryBack("비밀번호가 일치하지않습니다.");
 		}
 		
 		httpsession.setAttribute("loginedMemberId",member.getId());//로그인이 완료가 되면 로그인상태를 session에 저장
 		
-		return ResultData.from("S-1", Ut.f("%s님 로그인 완료",member.getName()));
+		//return ResultData.from("S-1", Ut.f("%s님 로그인 완료",member.getName()));
+		return Ut.jsLocationReplace(Ut.f("%s님 로그인 완료",member.getName()),"/");
+	}
+	
+	@RequestMapping("/usr/member/login") //로그인 창만 보여주는 역활을 한다.
+	public String showLogin(HttpSession httpsession) {
+		
+		return "usr/member/login"; //로그인폼양식을 jsp파일로 리턴해준다.
 		
 	}
+	
+	
 	
 	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody

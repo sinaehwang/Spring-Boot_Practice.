@@ -37,7 +37,7 @@
           <a href="/usr/article/list"><span class ="hover:underline">LIST</span></a>
         </li>
         <li class="flex items-center px-3">
-          <a href="#" ><span class ="hover:underline">LOGIN</span></a>
+          <a href="/usr/member/login" ><span class ="hover:underline">LOGIN</span></a>
         </li>
       </ul>
       </div>
