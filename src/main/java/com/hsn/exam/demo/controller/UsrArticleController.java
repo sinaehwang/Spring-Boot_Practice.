@@ -130,7 +130,6 @@ public class UsrArticleController {
 	}
 	
 	@RequestMapping("/usr/article/modify")
-	@ResponseBody
 	public String modify(HttpServletRequest req,int id) {
 
 		Rq rq = (Rq) req.getAttribute("rq");
