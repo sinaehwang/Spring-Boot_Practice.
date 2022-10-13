@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.hsn.exam.demo.vo.Member;
+
 import lombok.Getter;
 
 public class Rq {
@@ -58,6 +60,12 @@ public class Rq {
 			e.printStackTrace();
 		}
 		
+		
+	}
+
+	public void login(Member member) {
+		
+		httpsession.setAttribute("loginedMemberId", member.getId());
 		
 	}
 	

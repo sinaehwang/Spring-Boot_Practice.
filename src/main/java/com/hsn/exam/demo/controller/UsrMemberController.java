@@ -2,6 +2,7 @@ package com.hsn.exam.demo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,16 +69,14 @@ public class UsrMemberController {
 	
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
-	public String doLogin(HttpSession httpsession,String loginId,String loginPw) {
+	public String doLogin(HttpServletRequest req,String loginId,String loginPw) {
 		//1. 로그인 아이디/비번 일치여부부터 체크
 		//2. 로그인 완료 구현
-		boolean isLogined = false;//로그인이 아닌상태로 가정
 		
-		if(httpsession.getAttribute("loginedMemberId") !=null) {//로그인 상태 유무판별하기 위해서 session사용,널값이 아니면 로그인상태이다.
-			isLogined = true;//로그인상태
-		}
+		Rq rq = (Rq) req.getAttribute("rq");
 		
-		if(isLogined) {
+		
+		if(rq.isLogined()) {
 			//return ResultData.from("F-3", "이미 로그인 상태입니다.");
 			return Ut.jsHistoryBack("이미 로그인 상태입니다.");
 		}
@@ -106,9 +105,9 @@ public class UsrMemberController {
 			return Ut.jsHistoryBack("비밀번호가 일치하지않습니다.");
 		}
 		
-		httpsession.setAttribute("loginedMemberId",member.getId());//로그인이 완료가 되면 로그인상태를 session에 저장
+		rq.login(member);
+		//세션말고 rq이 대신 받는다.
 		
-		//return ResultData.from("S-1", Ut.f("%s님 로그인 완료",member.getName()));
 		return Ut.jsLocationReplace(Ut.f("%s님 로그인 완료",member.getName()),"/");
 	}
 	
