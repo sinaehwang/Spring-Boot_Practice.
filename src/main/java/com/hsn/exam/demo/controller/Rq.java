@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.hsn.exam.demo.Util.Ut;
 import com.hsn.exam.demo.vo.Member;
 
 import lombok.Getter;
@@ -41,13 +42,13 @@ public class Rq {
 
 	}
 
-	public void printHistoryBackjs() {
+	public void printHistoryBackjs(String msg) {
 		
 		//자바스크립트로 로그인필요 경고창 띄우기
 		//getWriter 를 사용하기 위해서 try문으로 감싸줘야함, print 메소드로 한번더 추상화시킴
 		
 		res.setContentType("text/html; charset=utf-8"); //자바스크립트 한글사용하기 위해서 필요
-		print("<script> alert('로그인후 사용해주세요'); history.back(); </script>");
+		print(Ut.jsHistoryBack(msg));
 		
 	}
 	
@@ -74,6 +75,14 @@ public class Rq {
 		
 		httpsession.removeAttribute("loginedMemberId");
 		
+	}
+	
+
+	public String historyBackOnView(String msg) {
+		req.setAttribute("msg", msg);
+		req.setAttribute("historyBack", true);
+
+		return "common/js";
 	}
 	
 

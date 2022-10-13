@@ -128,6 +128,32 @@ public class UsrArticleController {
 		return articleService.modifyArticle(id, title, body,rq.getLoginedMemberId());//권한체크가 성공한다면 실제 수정기능 로직실행이됨
 		
 	}
+	
+	@RequestMapping("/usr/article/modify")
+	@ResponseBody
+	public String modify(HttpServletRequest req,int id) {
+
+		Rq rq = (Rq) req.getAttribute("rq");
+
+		Article article = articleService.getForPrintArticle(id,rq.getLoginedMemberId());
+		
+		if (article == null) {
+
+			return Ut.f("%d번 게시글은 존재하지 않습니다.", id);
+		}
+		
+		ResultData actionCanModifyRd =articleService.actionCanModify(rq.getLoginedMemberId(),article);//Service에서 게시글 수정권한을 체크하기위해서
+
+		if(actionCanModifyRd.isFail()) {//게시글권한이 없으면 F로시작되는 코드가 리턴될것이기 때문에 ResultData 실패코드를 그대로 리턴해준다.
+			
+			//return actionCanModifyRd;
+			return rq.historyBackOnView(actionCanModifyRd.getMsg());
+		}
+		
+		//return articleService.modifyArticle(id, title, body,rq.getLoginedMemberId());//권한체크가 성공한다면 실제 수정기능 로직실행이됨
+		return "usr/article/modify";
+	}
+	
 
 	@RequestMapping("/usr/article/getArticle")
 	@ResponseBody

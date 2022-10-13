@@ -19,7 +19,7 @@ public class NeedLoginIntercepter implements HandlerInterceptor {//핸들러(인
 		
 		if(rq.isLogined()==false) {//로그인이 안됬다면 자바스크립트로 경고창을 띄워주고 false를 리턴해준다.
 			
-			rq.printHistoryBackjs();
+			rq.printHistoryBackjs("로그인후 이용해주세요");
 			
 			return false;
 			

@@ -25,7 +25,8 @@ public class MyWebMvcConfigurer  implements WebMvcConfigurer{
 		//add /**는 모든 요청 작동전에 경로해서 가도록 한다, exclude /resource/**,error는 제외시키고 경로한다.
 		
 		//로그인이 먼저 필요한 작업들을 인터셉터로 확인할수 있도록 need인터셉터로 만듬
-		registry.addInterceptor(needLoginIntercepter).addPathPatterns("/usr/article/doAdd").addPathPatterns("/usr/article/doDelete").addPathPatterns("/usr/article/doModify");
+		registry.addInterceptor(needLoginIntercepter).addPathPatterns("/usr/article/doAdd").addPathPatterns("/usr/article/doDelete")
+		.addPathPatterns("/usr/article/modify").addPathPatterns("/usr/article/doModify");
 		
 		
 	}
