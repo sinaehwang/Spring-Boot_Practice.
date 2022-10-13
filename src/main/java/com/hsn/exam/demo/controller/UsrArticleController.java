@@ -130,7 +130,7 @@ public class UsrArticleController {
 	}
 	
 	@RequestMapping("/usr/article/modify")
-	public String modify(HttpServletRequest req,int id) {
+	public String modify(HttpServletRequest req,Model model,int id) {
 
 		Rq rq = (Rq) req.getAttribute("rq");
 
@@ -148,8 +148,9 @@ public class UsrArticleController {
 			//return actionCanModifyRd;
 			return rq.historyBackOnView(actionCanModifyRd.getMsg());
 		}
+
+		model.addAttribute("article", article);
 		
-		//return articleService.modifyArticle(id, title, body,rq.getLoginedMemberId());//권한체크가 성공한다면 실제 수정기능 로직실행이됨
 		return "usr/article/modify";
 	}
 	
