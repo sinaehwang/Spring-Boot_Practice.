@@ -122,21 +122,18 @@ public class UsrMemberController {
 	
 	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody
-	public ResultData doLogout(HttpSession httpsession) {
+	public String doLogout(HttpServletRequest req , HttpSession httpsession) {
 		
-		boolean isLogined = false;
+		Rq rq = (Rq) req.getAttribute("rq");
 		
-		if(httpsession.getAttribute("loginedMemberId") ==null) {//로그아웃이니까 로그인된memberId가 널이어야 참이다.
-			isLogined = true;
+		if(rq.isLogined()==false) { 
+			return Ut.jsHistoryBack("이미 로그아웃 상태입니다.");
+			//return ResultData.from("F-4", "이미 로그아웃 상태입니다.");
 		}
 		
-		if(isLogined) {
-			return ResultData.from("F-4", "이미 로그아웃 상태입니다.");
-		}
+		rq.logout();
 		
-		httpsession.removeAttribute("loginedMemberId");
-		
-		return ResultData.from("S-4", "로그아웃되었습니다.");
+		return Ut.jsLocationReplace("로그아웃되었습니다.","../home/main");
 		
 	}
 	

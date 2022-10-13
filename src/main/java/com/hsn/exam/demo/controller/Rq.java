@@ -68,6 +68,13 @@ public class Rq {
 		httpsession.setAttribute("loginedMemberId", member.getId());
 		
 	}
+
+	public void logout() {
+		
+		
+		httpsession.removeAttribute("loginedMemberId");
+		
+	}
 	
 
 }
