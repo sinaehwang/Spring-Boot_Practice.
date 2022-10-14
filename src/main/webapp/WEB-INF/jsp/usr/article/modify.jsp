@@ -19,22 +19,22 @@
        </tr>
       <tr> 
         <th>제목</th>
-        <td><input class="w-96" name="title" type="text"
+        <td><input class="w-96 input input-bordered" name="title" type="text"
                 value="${article.title}" /></td>
       </tr>
       <tr>
         <th>내용</th>
             <td>
-              <textarea class="w-full" name="body" rows="10">${article.body}</textarea>
+              <textarea class="w-full input input-bordered"  name="body" rows="10">${article.body}</textarea>
             </td>
       </tr>
       <tr>
         <th>작성날짜</th>
-        <td>${article.regDate.substring(0,10)}</td>
+        <td>${article.regDateForPrint}</td>
       </tr>
       <tr>
         <th>수정날짜</th>
-        <td>${article.updateDate.substring(0,10)}</td>
+        <td>${article.getUpdateDateForPrint}</td>
       </tr>
       <tr>
         <th>작성자</th>
@@ -44,8 +44,8 @@
       <tr>
          <th>수정</th>
          <td>
-            <input type="submit" value="수정" />
-            <button type="button" onclick="history.back();">뒤로가기</button>
+            <button type="submit" class="btn btn-outline btn-primary">수정</button>
+            <button type="button" class="btn btn-outline btn-primary" onclick="history.back();">뒤로가기</button>
          </td>
      </tr>
      
@@ -54,11 +54,15 @@
   </form>
   
   <div class="btns mt-5">
-      <button class="btn-text-link" type="button" onclick="history.back();">뒤로가기</button>
-      <button class="btn-text-link" type="button" onclick="location.href='../home/main' ">HOME</button>
-      <a class="btn-text-link ml-2"  href= "../article/modify?id=${article.id}">수정</a>
+      <button class="btn btn-link" type="button" onclick="history.back();">뒤로가기</button>
+      <button class="btn btn-link" type="button" onclick="location.href='../home/main' ">HOME</button>
+      
+      <c:if test="${article.extra__actorCanModify}">
+      <a class="btn btn-link ml-2"  href= "../article/modify?id=${article.id}">수정</a>
+      </c:if>
+      
       <c:if test="${article.extra__actorCanDelete}">
-        <a onclick="if ( confirm('게시물을 삭제하시겠습니까?') == false ) { return false; }" href="../article/doDelete?id=${article.id}" class="btn-text-link ml-2" >삭제</a>
+        <a onclick="if ( confirm('게시물을 삭제하시겠습니까?') == false ) { return false; }" href="../article/doDelete?id=${article.id}" class="btn btn-link " >삭제</a>
       </c:if>
   </div>
   

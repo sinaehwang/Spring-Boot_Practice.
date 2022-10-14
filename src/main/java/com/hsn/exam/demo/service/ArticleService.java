@@ -88,6 +88,9 @@ public class ArticleService {
 		
 		article.setExtra__actorCanDelete(actorCanDeletedRd.isSuccess());
 		
+		ResultData actorCanModifyRd = actionCanModify(loginedMemberId, article);
+		
+		article.setExtra__actorCanModify(actorCanDeletedRd.isSuccess());
 		
 	}
 
