@@ -107,7 +107,7 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public ResultData doModify(HttpServletRequest req,int id, String title, String body) {// 리턴타입을 String 과 Article 둘다 사용해야되기 때문에 Object타입을 사용함
+	public String doModify(HttpServletRequest req,int id, String title, String body) {// 리턴타입을 String 과 Article 둘다 사용해야되기 때문에 Object타입을 사용함
 
 		Rq rq = (Rq) req.getAttribute("rq");
 
@@ -115,18 +115,23 @@ public class UsrArticleController {
 		
 		if (article == null) {
 
-			return ResultData.from("F-4", Ut.f("%d번 게시글은 존재하지 않습니다.", id));
+			//return ResultData.from("F-4", Ut.f("%d번 게시글은 존재하지 않습니다.", id));
+			return Ut.jsHistoryBack(Ut.f("%d번 게시글은 존재하지 않습니다.", id));
 		}
 		
 		ResultData actionCanModifyRd =articleService.actionCanModify(rq.getLoginedMemberId(),article);//Service에서 게시글 수정권한을 체크하기위해서
 
 		if(actionCanModifyRd.isFail()) {//게시글권한이 없으면 F로시작되는 코드가 리턴될것이기 때문에 ResultData 실패코드를 그대로 리턴해준다.
 			
-			return actionCanModifyRd;
+			//return actionCanModifyRd;
+			return Ut.jsHistoryBack(actionCanModifyRd.getMsg());
 		}
 		
-		return articleService.modifyArticle(id, title, body,rq.getLoginedMemberId());//권한체크가 성공한다면 실제 수정기능 로직실행이됨
+		//return articleService.modifyArticle(id, title, body,rq.getLoginedMemberId());//권한체크가 성공한다면 실제 수정기능 로직실행이됨
 		
+		articleService.modifyArticle(id, title, body,rq.getLoginedMemberId());
+		
+		return Ut.jsLocationReplace(Ut.f("%d번 글이 수정되었습니다.", id), Ut.f("../article/detail?id=%d", id));
 	}
 	
 	@RequestMapping("/usr/article/modify")
@@ -138,7 +143,8 @@ public class UsrArticleController {
 		
 		if (article == null) {
 
-			return Ut.f("%d번 게시글은 존재하지 않습니다.", id);
+			//return Ut.f("%d번 게시글은 존재하지 않습니다.", id);
+			return rq.historyBackOnView(Ut.f("%d번 게시물은 존재하지 않습니다.", id));
 		}
 		
 		ResultData actionCanModifyRd =articleService.actionCanModify(rq.getLoginedMemberId(),article);//Service에서 게시글 수정권한을 체크하기위해서

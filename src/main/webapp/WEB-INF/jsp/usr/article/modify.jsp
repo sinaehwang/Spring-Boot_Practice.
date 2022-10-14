@@ -7,7 +7,7 @@
  <section class="mt-5"  >
     <div class="container mx-auto px-3">
     <form class = "table-box-type-1 " method="POST" action ="../article/doModify">
-    
+    <input type="hidden" name="id" value="${article.id }" />
   <table>
   <colgroup>
        <col width="100">
