@@ -34,3 +34,9 @@ html>body {
 	color:blue;
   text-decoration: underline;
 }
+
+/*커스텀 800이하 화면너비부터는 반응형끄기*/
+
+body {
+  min-width:800px;
+}

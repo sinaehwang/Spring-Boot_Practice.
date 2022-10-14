@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.hsn.exam.demo.Util.Ut;
+import com.hsn.exam.demo.service.MemberService;
 import com.hsn.exam.demo.vo.Member;
 
 import lombok.Getter;
@@ -16,12 +17,14 @@ public class Rq {
 	private boolean isLogined;
 	@Getter
 	private int loginedMemberId;
+	@Getter
+	private Member loginedMember;
 	
 	private HttpServletRequest req;
 	private HttpServletResponse res;
 	private HttpSession httpsession;
 
-	public Rq(HttpServletRequest req, HttpServletResponse res) {//printHistoryBackjs을 위해 res 가져옴
+	public Rq(HttpServletRequest req, HttpServletResponse res,MemberService memberService) {//printHistoryBackjs을 위해 res 가져옴
 
 		this.req = req;
 		this.res = res;
@@ -30,15 +33,19 @@ public class Rq {
 		boolean isLogined = false;//httpsession에 초기값 저장상태
 
 		int loginedMemberId = 0;
+		
+		Member loginedMember = null;
 
 		if (httpsession.getAttribute("loginedMemberId") != null) {// 로그인 상태 유무판별하기 위해서 session사용,널값이 아니면 로그인상태이다.
 
 			isLogined = true;// 로그인상태
 			loginedMemberId = (int) httpsession.getAttribute("loginedMemberId");// 로그인된 회원의 번호를 저장해놓는다.
+			loginedMember = memberService.getMemberById(loginedMemberId);
 		}
 		
 		this.isLogined = isLogined; //Rq에 초기값 저장상태
 		this.loginedMemberId = loginedMemberId;
+		this.loginedMember = loginedMember;
 
 	}
 

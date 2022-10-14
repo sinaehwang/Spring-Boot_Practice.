@@ -50,6 +50,14 @@ public class UsrArticleController {
 		return ResultData.newData(writeData, article); // 성공했을때 해당게시글까지 넘겨줘서 보여지도록
 
 	}
+	
+	@RequestMapping("/usr/article/write")
+	public String write(HttpServletRequest req,Model model) {
+
+		
+		return "usr/article/write";
+	}
+	
 
 	@RequestMapping("/usr/article/list")
 	public String getArticles(HttpServletRequest req,Model model) {//Model클래스도입
