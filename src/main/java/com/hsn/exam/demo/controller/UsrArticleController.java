@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hsn.exam.demo.Util.Ut;
 import com.hsn.exam.demo.service.ArticleService;
+import com.hsn.exam.demo.service.BoardService;
 import com.hsn.exam.demo.vo.Article;
+import com.hsn.exam.demo.vo.Board;
 import com.hsn.exam.demo.vo.ResultData;
 
 @Controller
@@ -21,6 +23,9 @@ public class UsrArticleController {
 	// ArticleService와 연결해줌,객체생성을 안해도 가능해짐
 	private ArticleService articleService;
 
+	@Autowired
+	private BoardService boardService;
+	
 	// 액션 메소드
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
@@ -60,15 +65,18 @@ public class UsrArticleController {
 	
 
 	@RequestMapping("/usr/article/list")
-	public String getArticles(HttpServletRequest req,Model model) {//Model클래스도입
+	public String getArticles(HttpServletRequest req,Model model,int boardId) {//게시판Id를 인자로 받는다.
+		
+		Board board = boardService.getBoardId(boardId);//게시판 클래스생성
 
 		Rq rq = (Rq) req.getAttribute("rq");
 
 		List<Article> articles = articleService.getForPrintArticles(rq.getLoginedMemberId());
 		
 		model.addAttribute("articles",articles);//list.jsp에서 불러올수있음
+		model.addAttribute("board",board);//board.repository에서 가져온 데이터를 list.jsp에서 불러올수있음
 		
-		return "usr/article/list";  //jsp로 구현한다.
+		return "usr/article/list";  //jsp로 리스트를 구현한다.
 
 	}
 	

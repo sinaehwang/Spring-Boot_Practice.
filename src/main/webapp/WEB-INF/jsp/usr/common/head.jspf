@@ -45,7 +45,12 @@
         <li class="flex items-center px-3">
           <a href="/usr/article/write"><span class ="hover:underline">WRITE</span></a>
         </li>
-        
+        <li class="flex items-center px-3">
+          <a href="/usr/article/list?boardId=1"><span class ="hover:underline">NOTICE</span></a>
+        </li>
+        <li class="flex items-center px-3">
+          <a href="/usr/article/list?boardId=2"><span class ="hover:underline">Free Board</span></a>
+        </li>
         <c:if test = "${rq.isLogined()==false}">
           <li class="flex items-center px-3">
             <a href="/usr/member/login" ><span class ="hover:underline">LOGIN</span></a>
