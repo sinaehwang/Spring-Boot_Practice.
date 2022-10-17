@@ -70,8 +70,13 @@ public class UsrArticleController {
 		Board board = boardService.getBoardId(boardId);//게시판 클래스생성
 
 		Rq rq = (Rq) req.getAttribute("rq");
+		
+		if(board==null) {
+			
+			return rq.historyBackOnView(Ut.f("%d번 게시판은 존재하지 않습니다.", boardId));
+		}
 
-		List<Article> articles = articleService.getForPrintArticles(rq.getLoginedMemberId());
+		List<Article> articles = articleService.getForPrintArticles(rq.getLoginedMemberId(),boardId);//boardId까지 정보까지 포함해서 가져와야됨
 		
 		model.addAttribute("articles",articles);//list.jsp에서 불러올수있음
 		model.addAttribute("board",board);//board.repository에서 가져온 데이터를 list.jsp에서 불러올수있음

@@ -64,9 +64,9 @@ public class ArticleService {
 
 	}
 
-	public List<Article> getForPrintArticles(int loginedMemberId) { //컨트롤러에서부터 저장된 세션 loginedMemberId 상태를 전달받는다.
+	public List<Article> getForPrintArticles(int loginedMemberId, int boardId) {//boardId정보를 추가적으로 받는다.
 
-		List<Article> articles = articleRepository.getArticles();// 쿼리로 가져온 리스트들을 먼저 가져오고
+		List<Article> articles = articleRepository.getArticles(boardId);// 쿼리로 가져온 리스트들을 먼저 가져오고
 		
 		for(Article article : articles) {
 			

@@ -125,6 +125,14 @@ UPDATE article
 SET boardId=2
 WHERE id IN (3)
 
+# WHERE 1=1(참)을 이용해 boardId에 해당하는 게시글목록만 가져오기
+SELECT article.*,`member`.nickname AS extra_writerName 
+FROM article LEFT JOIN `member` 
+ON article.memberId = `member`.Id
+WHERE 1=1 
+AND article.boardId = 1
+ORDER BY article.id DESC
+
 SELECT * FROM board;
 
 ```

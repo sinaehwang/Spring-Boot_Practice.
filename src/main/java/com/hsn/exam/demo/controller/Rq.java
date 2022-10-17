@@ -90,7 +90,7 @@ public class Rq {
 		req.setAttribute("historyBack", true);
 		
 
-		return "common/js";
+		return "common.js";
 	}
 	
 
