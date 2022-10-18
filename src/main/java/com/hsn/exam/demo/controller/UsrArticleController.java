@@ -30,13 +30,7 @@ public class UsrArticleController {
 	// 액션 메소드
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
-	public ResultData doAdd(String title, String body) {
-		
-		//Rq rq = (Rq) req.getAttribute("rq");//기존에 Request에서 저장한 Rq를 불러와서 사용하다가 @Autowired로 대체
-
-		//if (rq.isLogined() == false) {//rq클래스를 통해서  로그인 상태 정보를 가져와야함
-		//	return ResultData.from("F-3", "로그인후 이용해주시기 바랍니다.");
-		//}
+	public ResultData doAdd(int boardId,String title, String body) {
 
 		if (Ut.empty(title)) {// 값이 비어있거나 null인경우를 판단하는 함수로직실행
 			return ResultData.from("F-2", "제목을 입력해주세요");// 실패코드랑 메세지만 넘겨준다.
@@ -46,7 +40,7 @@ public class UsrArticleController {
 			return ResultData.from("F-2", "내용을 입력해주세요");
 		}
 
-		ResultData<Integer> writeData = articleService.writeArticle(title, body, rq.getLoginedMemberId());//rq클래스를 통해서  로그인 멤버Id 정보를 가져와야함
+		ResultData<Integer> writeData = articleService.writeArticle(boardId,title, body, rq.getLoginedMemberId());//rq클래스를 통해서  로그인 멤버Id 정보를 가져와야함
 
 		int id = (int) writeData.getData1();// int로 형변환이 필요함
 

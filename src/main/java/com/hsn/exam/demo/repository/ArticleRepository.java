@@ -9,7 +9,7 @@ import com.hsn.exam.demo.vo.Article;
 @Mapper
 public interface ArticleRepository {
 
-	public void writeArticle(String title,String body,int memberId); //리턴타입이 없기때문에 id를 생성할수없어 타입오류가 발생됨
+	public void writeArticle(int boardId, String title,String body,int memberId); //리턴타입이 없기때문에 id를 생성할수없어 타입오류가 발생됨
 	
 	public Article getForPrintArticle(int id);
 	
