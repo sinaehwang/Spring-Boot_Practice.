@@ -22,17 +22,17 @@ public class UsrArticleController {
 	@Autowired
 	// ArticleService와 연결해줌,객체생성을 안해도 가능해짐
 	private ArticleService articleService;
-
 	@Autowired
 	private BoardService boardService;
+	@Autowired
+	private Rq rq;
 	
 	// 액션 메소드
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
-	public ResultData doAdd(HttpServletRequest req, String title, String body) {
-		//Rq rq = new Rq(req);
+	public ResultData doAdd(String title, String body) {
 		
-		Rq rq = (Rq) req.getAttribute("rq");//비포인터셉터에서 저장한 rq(로그인로직)를 가져와서 사용하면 된다.
+		//Rq rq = (Rq) req.getAttribute("rq");//기존에 Request에서 저장한 Rq를 불러와서 사용하다가 @Autowired로 대체
 
 		//if (rq.isLogined() == false) {//rq클래스를 통해서  로그인 상태 정보를 가져와야함
 		//	return ResultData.from("F-3", "로그인후 이용해주시기 바랍니다.");
@@ -65,11 +65,11 @@ public class UsrArticleController {
 	
 
 	@RequestMapping("/usr/article/list")
-	public String getArticles(HttpServletRequest req,Model model,int boardId) {//게시판Id를 인자로 받는다.
+	public String getArticles(Model model,int boardId) {//게시판Id를 인자로 받는다.
 		
 		Board board = boardService.getBoardId(boardId);//게시판 클래스생성
 
-		Rq rq = (Rq) req.getAttribute("rq");
+		//Rq rq = (Rq) req.getAttribute("rq");
 		
 		if(board==null) {
 			
@@ -89,9 +89,9 @@ public class UsrArticleController {
 	}
 	
 	@RequestMapping("/usr/article/detail")
-	public String ArticleDetail(HttpServletRequest req,Model model,int id) {
+	public String ArticleDetail(Model model,int id) {
 		
-		Rq rq = (Rq) req.getAttribute("rq");
+		//Rq rq = (Rq) req.getAttribute("rq");
 
 		Article article = articleService.getForPrintArticle(id,rq.getLoginedMemberId());
 		
@@ -104,9 +104,9 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public String doDelete(HttpServletRequest req, int id) {
+	public String doDelete(int id) {
 
-		Rq rq = (Rq) req.getAttribute("rq");
+		//Rq rq = (Rq) req.getAttribute("rq");
 
 		Article article = articleService.getForPrintArticle(id,rq.getLoginedMemberId()); // id를 기반으로 article을 찾는 함수
 
@@ -131,9 +131,9 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public String doModify(HttpServletRequest req,int id, String title, String body) {// 리턴타입을 String 과 Article 둘다 사용해야되기 때문에 Object타입을 사용함
+	public String doModify(int id, String title, String body) {// 리턴타입을 String 과 Article 둘다 사용해야되기 때문에 Object타입을 사용함
 
-		Rq rq = (Rq) req.getAttribute("rq");
+		//Rq rq = (Rq) req.getAttribute("rq");
 
 		Article article = articleService.getForPrintArticle(id,rq.getLoginedMemberId());
 		
@@ -159,9 +159,9 @@ public class UsrArticleController {
 	}
 	
 	@RequestMapping("/usr/article/modify")
-	public String modify(HttpServletRequest req,Model model,int id) {
+	public String modify(Model model,int id) {
 
-		Rq rq = (Rq) req.getAttribute("rq");
+		//Rq rq = (Rq) req.getAttribute("rq");
 
 		Article article = articleService.getForPrintArticle(id,rq.getLoginedMemberId());
 		
@@ -187,9 +187,9 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/getArticle")
 	@ResponseBody
-	public ResultData<Article> getArticle(HttpServletRequest req,int id) {// ResultData클래스타입으로 바꾸고 from()리턴타입으로 맞춰줘야함
+	public ResultData<Article> getArticle(int id) {// ResultData클래스타입으로 바꾸고 from()리턴타입으로 맞춰줘야함
 		
-		Rq rq = (Rq) req.getAttribute("rq");
+		//Rq rq = (Rq) req.getAttribute("rq");
 
 		Article article = articleService.getForPrintArticle(id,rq.getLoginedMemberId());
 

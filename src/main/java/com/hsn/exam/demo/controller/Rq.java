@@ -6,12 +6,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Component;
+
 import com.hsn.exam.demo.Util.Ut;
 import com.hsn.exam.demo.service.MemberService;
 import com.hsn.exam.demo.vo.Member;
 
 import lombok.Getter;
-
+@Component
+@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS ) //여러군데에서 request로 저장한 Rq를 불러오는대신 Scope로 불러옴
 public class Rq {
 	@Getter
 	private boolean isLogined;
@@ -31,9 +36,7 @@ public class Rq {
 		this.httpsession = req.getSession();
 		
 		boolean isLogined = false;//httpsession에 초기값 저장상태
-
 		int loginedMemberId = 0;
-		
 		Member loginedMember = null;
 
 		if (httpsession.getAttribute("loginedMemberId") != null) {// 로그인 상태 유무판별하기 위해서 session사용,널값이 아니면 로그인상태이다.
@@ -46,6 +49,8 @@ public class Rq {
 		this.isLogined = isLogined; //Rq에 초기값 저장상태
 		this.loginedMemberId = loginedMemberId;
 		this.loginedMember = loginedMember;
+
+		this.req.setAttribute("rq", this); //비포인터셉터에서 저장하던 rq를 this로 저장할수있다.
 
 	}
 
@@ -91,6 +96,11 @@ public class Rq {
 		
 
 		return "common.js";
+	}
+
+	//별도기능을 가지고 있는게 아니라 초기실행이 필요해서 만든 메소드
+	public void initOnBeforeActionIntercepter() {
+		
 	}
 	
 

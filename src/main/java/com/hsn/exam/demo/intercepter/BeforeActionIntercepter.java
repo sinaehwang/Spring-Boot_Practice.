@@ -14,17 +14,18 @@ import com.hsn.exam.demo.service.MemberService;
 public class BeforeActionIntercepter implements HandlerInterceptor {//핸들러(인터페이스)에서 제공하는 메소드를 반드시 구현해야한다
 
 	@Autowired
-	private MemberService memberService;
+	private Rq rq;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 
-		Rq rq = new Rq(request,response,memberService);
+		//Rq rq = new Rq(request,response,memberService); 
 		
-		request.setAttribute("rq", rq); //서블릿request를 이용해 컨트롤러에서도 rq(로그인확인로직)를 공유할수 있도록 저장함
+		//request.setAttribute("rq", rq); //기존에 인터셉터에서 Rq를 저장하던 작업을 Rq가 진행하게됨
+
+		rq.initOnBeforeActionIntercepter(); // head 로그인부분에서 rq객체를 사용하고 있기때문에 첫작업인 비포엔터셉터에서 rq가 실행되는 초기작업이 필요함
 		
-		System.out.println("실행완료");
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 	}
 }

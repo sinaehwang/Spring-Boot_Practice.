@@ -2,7 +2,6 @@ package com.hsn.exam.demo.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,8 @@ import com.hsn.exam.demo.vo.ResultData;
 public class UsrMemberController {
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private Rq rq;
 	
 	public UsrMemberController(MemberService memberService) {
 		this.memberService=memberService;
@@ -69,11 +70,11 @@ public class UsrMemberController {
 	
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
-	public String doLogin(HttpServletRequest req,String loginId,String loginPw) {
+	public String doLogin(String loginId,String loginPw) {
 		//1. 로그인 아이디/비번 일치여부부터 체크
 		//2. 로그인 완료 구현
 		
-		Rq rq = (Rq) req.getAttribute("rq");
+		//Rq rq = (Rq) req.getAttribute("rq");
 		
 		
 		if(rq.isLogined()) {
@@ -122,9 +123,9 @@ public class UsrMemberController {
 	
 	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody
-	public String doLogout(HttpServletRequest req , HttpSession httpsession) {
+	public String doLogout(HttpSession httpsession) {
 		
-		Rq rq = (Rq) req.getAttribute("rq");
+		//Rq rq = (Rq) req.getAttribute("rq");
 		
 		if(rq.isLogined()==false) { 
 			return Ut.jsHistoryBack("이미 로그아웃 상태입니다.");
