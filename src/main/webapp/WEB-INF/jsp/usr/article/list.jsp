@@ -5,9 +5,9 @@
  <%@ include file="../common/head.jspf" %>
  <section class="mt-5"  >
     <div class="container mx-auto px-3">
+    <div>총 게시글 목록:${TotalPageCount}개</div>
     <div class = "table-box-type-1 ">
-    <div>총게시글목록:${TotalPageCount}개</div>
-  <table>
+  <table class = "table w-full">
   <colgroup>
     <col width="50">
     <col width="150">
@@ -26,10 +26,10 @@
     </thead>
     <tbody><!--$로 model에서 저장한 키값을 불러와서 사용할수 있다.  -->
      <c:forEach var="article" items="${articles }"> <!--c:forEach는 범위내에서 반복문을 수행함,articles를 "article"변수에 담아서 사용한다.  -->
-      <tr>
+      <tr class = "hover">
         <td>${article.id}</td>
         <td>
-        <a class ="btn-text-link" href="../article/detail?id=${article.id}">${article.title}</a> <!--제목클릭시 해당게시글상세페이지에 넘어가도록  -->
+        <a class ="btn-text-link hover:underline" href="../article/detail?id=${article.id}">${article.title}</a> <!--제목클릭시 해당게시글상세페이지에 넘어가도록  -->
         </td>
         <td>${article.regDate.substring(0,10)}</td>
         <td>${article.updateDate.substring(0,10)}</td>

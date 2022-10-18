@@ -8,7 +8,7 @@
     <div class="container mx-auto px-3">
     <form class = "table-box-type-1 " method="POST" action ="../article/doModify">
     <input type="hidden" name="id" value="${article.id }" />
-  <table>
+  <table class = "table w-full">
   <colgroup>
        <col width="100">
   </colgroup>

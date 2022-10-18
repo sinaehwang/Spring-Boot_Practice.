@@ -7,7 +7,7 @@
  <section class="mt-5"  >
     <div class="container mx-auto px-3">
     <div class = "table-box-type-1 ">
-  <table>
+  <table class = "table w-full">
   <colgroup>
        <col width="100">
   </colgroup>

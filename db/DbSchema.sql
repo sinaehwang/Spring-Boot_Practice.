@@ -135,5 +135,16 @@ ORDER BY article.id DESC
 
 SELECT * FROM board;
 
+#SELECT FLOOR(RAND()*2)+1 FLOOR 소수점버리기
+
+#게시물갯수늘리기
+INSERT INTO article
+(
+regDate,updateDate,title,`body`,memberId,boardId
+)
+SELECT NOW(),NOW(),CONCAT('제목_',RAND()),CONCAT('내용_',RAND()),FLOOR(RAND()*2)+1 ,FLOOR(RAND()*2)+1
+FROM article;
+
+
 ```
 
