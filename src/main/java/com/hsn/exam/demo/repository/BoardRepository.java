@@ -13,8 +13,17 @@ public interface BoardRepository {
 			WHERE board.id = #{id}
 			AND board.delStatus = 0
 			""")
-
 	Board getBoardId(int boardId);
+
+	@Select("""
+			SELECT COUNT(*) FROM article
+			LEFT JOIN `member` 
+			ON article.memberId = `member`.Id
+			WHERE 1=1 
+			AND article.boardId = #{boardId}
+			ORDER BY article.id DESC
+			""")
+	int getTotalPageCount(int boardId);
 
 
 

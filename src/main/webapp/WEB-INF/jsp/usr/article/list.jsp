@@ -6,6 +6,7 @@
  <section class="mt-5"  >
     <div class="container mx-auto px-3">
     <div class = "table-box-type-1 ">
+    <div>총게시글목록:${TotalPageCount}개</div>
   <table>
   <colgroup>
     <col width="50">

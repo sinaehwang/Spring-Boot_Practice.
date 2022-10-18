@@ -20,6 +20,11 @@ public class BoardService {
 		
 		return boardRepository.getBoardId(boardId);
 	}
+
+	public int getTotalPageCount(int boardId) {
+
+		return boardRepository.getTotalPageCount(boardId);
+	}
 	
 	
 	

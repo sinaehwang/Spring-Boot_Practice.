@@ -76,8 +76,11 @@ public class UsrArticleController {
 			return rq.historyBackOnView(Ut.f("%d번 게시판은 존재하지 않습니다.", boardId));
 		}
 
+		int TotalPageCount = boardService.getTotalPageCount(boardId);
+		
 		List<Article> articles = articleService.getForPrintArticles(rq.getLoginedMemberId(),boardId);//boardId까지 정보까지 포함해서 가져와야됨
 		
+		model.addAttribute("TotalPageCount",TotalPageCount);//TotalPageCount를 list.jsp에서 불러올수있음
 		model.addAttribute("articles",articles);//list.jsp에서 불러올수있음
 		model.addAttribute("board",board);//board.repository에서 가져온 데이터를 list.jsp에서 불러올수있음
 		
