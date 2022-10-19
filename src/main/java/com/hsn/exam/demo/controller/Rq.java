@@ -93,9 +93,8 @@ public class Rq {
 	public String historyBackOnView(String msg) {
 		req.setAttribute("msg", msg);
 		req.setAttribute("historyBack", true);
-		
 
-		return "common.js";
+		return "usr/common/js";
 	}
 
 	//별도기능을 가지고 있는게 아니라 초기실행이 필요해서 만든 메소드

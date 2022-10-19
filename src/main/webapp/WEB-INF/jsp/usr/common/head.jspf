@@ -26,8 +26,10 @@
 <script src="/resource/commom.js"></script>
 
 </head>
-
-<header>
+<body>
+  
+    <header>
+  
     <div class = "container mx-auto flex h-20 ">
       <a href="/" class="flex items-center px-3">
         <span class ="hover:underline">로고명</span>
@@ -64,10 +66,10 @@
       </ul>
       </div>
   </header>
-  
+  <main>
   <section class="mt-5"  >
     <div class="container mx-auto px-3">${pageTitle }</div>
  </section>
  
- <main>
+
  

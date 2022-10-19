@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
   pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <c:set var="pageTitle" value="게시글 상세페이지"/>
 <%@ include file="../common/head.jspf" %>
 
@@ -26,11 +27,11 @@
       </tr>
       <tr>
         <th>작성날짜</th>
-        <td>${article.regDate.substring(0,10)}</td>
+        <td>${article.regDate.substring(0,16)}</td>
       </tr>
       <tr>
         <th>수정날짜</th>
-        <td>${article.updateDate.substring(0,10)}</td>
+        <td>${article.updateDate.substring(0,16)}</td>
       </tr>
       <tr>
         <th>작성자</th>

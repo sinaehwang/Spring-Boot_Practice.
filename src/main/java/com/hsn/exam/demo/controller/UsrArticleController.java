@@ -26,36 +26,48 @@ public class UsrArticleController {
 	private BoardService boardService;
 	@Autowired
 	private Rq rq;
+
+	//상단부메뉴 글쓰기를 선택하면 연결되는 부분,write.jsp로 연결되서 글쓰기작성폼 보여줌
+	@RequestMapping("/usr/article/write")
+	public String write(HttpServletRequest req,Model model) {
+		
+		
+		return "usr/article/write";
+	}
 	
-	// 액션 메소드
+	// 액션 메소드(write.jsp에서 작성후 전송시 제목,내용,게시판Id파라미터값을받음)
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
-	public ResultData doAdd(int boardId,String title, String body) {
+	public String doAdd(int boardId,String title, String body) {
+
+		/*
+		 * if (Ut.empty(boardId)) { //게시판 미선택후 작성되는 경우를 막기위해서 return
+		 * Ut.jsHistoryBack("게시판을 선택해주세요"); }
+		 */
 
 		if (Ut.empty(title)) {// 값이 비어있거나 null인경우를 판단하는 함수로직실행
-			return ResultData.from("F-2", "제목을 입력해주세요");// 실패코드랑 메세지만 넘겨준다.
+			//return ResultData.from("F-2", "제목을 입력해주세요");// 실패코드랑 메세지만 넘겨준다.
+			return Ut.jsHistoryBack("제목을 입력해주세요");
 		}
 
 		if (Ut.empty(body)) {
-			return ResultData.from("F-2", "내용을 입력해주세요");
+			//return ResultData.from("F-2", "내용을 입력해주세요");
+			return Ut.jsHistoryBack("내용을 입력해주세요");
 		}
 
 		ResultData<Integer> writeData = articleService.writeArticle(boardId,title, body, rq.getLoginedMemberId());//rq클래스를 통해서  로그인 멤버Id 정보를 가져와야함
 
 		int id = (int) writeData.getData1();// int로 형변환이 필요함
 
-		Article article = articleService.getForPrintArticle(id,rq.getLoginedMemberId());
+		//Article article = articleService.getForPrintArticle(id,rq.getLoginedMemberId());
 
-		return ResultData.newData(writeData, article); // 성공했을때 해당게시글까지 넘겨줘서 보여지도록
+		//return ResultData.newData(writeData, article); // 성공했을때 해당게시글까지 넘겨줘서 보여지도록
+		
+		
+		return Ut.jsLocationReplace(Ut.f("%d번 글이 생성되었습니다.", id), Ut.f("../article/detail?id=%d", id));
 
 	}
 	
-	@RequestMapping("/usr/article/write")
-	public String write(HttpServletRequest req,Model model) {
-
-		
-		return "usr/article/write";
-	}
 	
 
 	@RequestMapping("/usr/article/list")
@@ -119,7 +131,7 @@ public class UsrArticleController {
 
 		articleService.deleteArticle(id); // 찾은 id를 인자로 주고 실제 삭제하는 함수 실행시킴
 		
-		return Ut.jsLocationReplace(Ut.f("%d번 게시글이 삭제되었습니다.", id), "/usr/article/list");//모든 컨트롤 작업마다 메세지가 다르기 때문에 함수화를 시켜주는게 좋음
+		return Ut.jsLocationReplace(Ut.f("%d번 게시글이 삭제되었습니다.", id), "/usr/article/list?boardId=1");//모든 컨트롤 작업마다 메세지가 다르기 때문에 함수화를 시켜주는게 좋음
 		
 	}
 
