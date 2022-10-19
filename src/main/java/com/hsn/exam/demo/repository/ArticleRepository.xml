@@ -51,6 +51,9 @@
 		AND article.boardId = #{boardId}
 	</if>
 	ORDER BY article.id DESC
+	<if test = "lastPage !=-1" > <!-- 페이지값 오류를 방지하기위해 if로 막아줌(정상값을 받았을경우에만 실행되도록) -->
+	LIMIT #{startPage}, #{lastPage}
+	</if>
 	</select>
 	
 	<select id = "getLastInsertId" resultType = "int">

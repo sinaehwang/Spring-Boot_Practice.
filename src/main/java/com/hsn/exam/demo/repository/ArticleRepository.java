@@ -17,7 +17,7 @@ public interface ArticleRepository {
 
 	public void modifyArticle(int id,String title, String body); 
 
-	public List<Article> getArticles(int boardId);
+	public List<Article> getArticles(int boardId, int startPage, int lastPage);//시작페이지와 마지막페이지를 넘겨준다.
 
 	public int getLastInsertId();
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hsn.exam.demo.Util.Ut;
@@ -71,7 +72,7 @@ public class UsrArticleController {
 	
 
 	@RequestMapping("/usr/article/list")
-	public String getArticles(Model model,int boardId) {//게시판Id를 인자로 받는다.
+	public String getArticles(Model model,@RequestParam(defaultValue = "1") int boardId,@RequestParam(defaultValue = "1") int page) {//boardId와 page인자값이 안넘왔을때 기본값으로 세팅하기위해
 		
 		Board board = boardService.getBoardId(boardId);//게시판 클래스생성
 
@@ -84,7 +85,9 @@ public class UsrArticleController {
 
 		int TotalPageCount = boardService.getTotalPageCount(boardId);
 		
-		List<Article> articles = articleService.getForPrintArticles(rq.getLoginedMemberId(),boardId);//boardId까지 정보까지 포함해서 가져와야됨
+		int itemsInAPage = 10; //10page씩 가져온다
+		
+		List<Article> articles = articleService.getForPrintArticles(rq.getLoginedMemberId(),boardId,itemsInAPage,page);//현재페이지랑 itemsInAPage를 넘겨줌
 		
 		model.addAttribute("TotalPageCount",TotalPageCount);//TotalPageCount를 list.jsp에서 불러올수있음
 		model.addAttribute("articles",articles);//list.jsp에서 불러올수있음
