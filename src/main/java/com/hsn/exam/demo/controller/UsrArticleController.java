@@ -73,15 +73,20 @@ public class UsrArticleController {
 			return rq.historyBackOnView(Ut.f("%d번 게시판은 존재하지 않습니다.", boardId));
 		}
 
-		int TotalPageCount = boardService.getTotalPageCount(boardId);//게시판Id별 총페이지갯수
+		int articlesCount = boardService.getTotalPageCount(boardId);//게시판Id별 총페이지갯수
 		
 		int itemsInAPage = 10; //10page씩 가져온다
 		
+		int pagesCount = (int)Math.ceil((double)articlesCount/itemsInAPage);//double형으로 형변환해서 소수점발생후 반올림을시켜야 누락페이지가 발생안함
+		
 		List<Article> articles = articleService.getForPrintArticles(rq.getLoginedMemberId(),boardId,itemsInAPage,page);//현재페이지랑 itemsInAPage를 넘겨줌
 		
-		model.addAttribute("TotalPageCount",TotalPageCount);//TotalPageCount를 list.jsp에서 불러올수있음
+		model.addAttribute("articlesCount",articlesCount);//TotalPageCount를 list.jsp에서 불러올수있음
 		model.addAttribute("articles",articles);//list.jsp에서 불러올수있음
 		model.addAttribute("board",board);//board.repository에서 가져온 데이터를 list.jsp에서 불러올수있음
+		model.addAttribute("pagesCount",pagesCount);
+		model.addAttribute("boardId",boardId);
+		model.addAttribute("page",page);
 		
 		return "usr/article/list";  //jsp로 리스트를 구현한다.
 
