@@ -40,12 +40,7 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
 	public String doAdd(int boardId,String title, String body) {
-
-		/*
-		 * if (Ut.empty(boardId)) { //게시판 미선택후 작성되는 경우를 막기위해서 return
-		 * Ut.jsHistoryBack("게시판을 선택해주세요"); }
-		 */
-
+		
 		if (Ut.empty(title)) {// 값이 비어있거나 null인경우를 판단하는 함수로직실행
 			//return ResultData.from("F-2", "제목을 입력해주세요");// 실패코드랑 메세지만 넘겨준다.
 			return Ut.jsHistoryBack("제목을 입력해주세요");
@@ -60,30 +55,25 @@ public class UsrArticleController {
 
 		int id = (int) writeData.getData1();// int로 형변환이 필요함
 
-		//Article article = articleService.getForPrintArticle(id,rq.getLoginedMemberId());
-
-		//return ResultData.newData(writeData, article); // 성공했을때 해당게시글까지 넘겨줘서 보여지도록
-		
 		
 		return Ut.jsLocationReplace(Ut.f("%d번 글이 생성되었습니다.", id), Ut.f("../article/detail?id=%d", id));
 
 	}
-	
-	
 
 	@RequestMapping("/usr/article/list")
-	public String getArticles(Model model,@RequestParam(defaultValue = "1") int boardId,@RequestParam(defaultValue = "1") int page) {//boardId와 page인자값이 안넘왔을때 기본값으로 세팅하기위해
+	public String getArticles(Model model,
+			@RequestParam(defaultValue = "1") int boardId,
+			@RequestParam(defaultValue = "1") int page) {//boardId와 page인자값이 안넘왔을때 기본값으로 세팅하기위해
 		
 		Board board = boardService.getBoardId(boardId);//게시판 클래스생성
 
-		//Rq rq = (Rq) req.getAttribute("rq");
 		
 		if(board==null) {
 			
 			return rq.historyBackOnView(Ut.f("%d번 게시판은 존재하지 않습니다.", boardId));
 		}
 
-		int TotalPageCount = boardService.getTotalPageCount(boardId);
+		int TotalPageCount = boardService.getTotalPageCount(boardId);//게시판Id별 총페이지갯수
 		
 		int itemsInAPage = 10; //10page씩 가져온다
 		
@@ -99,8 +89,6 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/detail")
 	public String ArticleDetail(Model model,int id) {
-		
-		//Rq rq = (Rq) req.getAttribute("rq");
 
 		Article article = articleService.getForPrintArticle(id,rq.getLoginedMemberId());
 		
@@ -114,8 +102,6 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
 	public String doDelete(int id) {
-
-		//Rq rq = (Rq) req.getAttribute("rq");
 
 		Article article = articleService.getForPrintArticle(id,rq.getLoginedMemberId()); // id를 기반으로 article을 찾는 함수
 
@@ -142,49 +128,43 @@ public class UsrArticleController {
 	@ResponseBody
 	public String doModify(int id, String title, String body) {// 리턴타입을 String 과 Article 둘다 사용해야되기 때문에 Object타입을 사용함
 
-		//Rq rq = (Rq) req.getAttribute("rq");
-
 		Article article = articleService.getForPrintArticle(id,rq.getLoginedMemberId());
 		
 		if (article == null) {
 
 			//return ResultData.from("F-4", Ut.f("%d번 게시글은 존재하지 않습니다.", id));
-			return Ut.jsHistoryBack(Ut.f("%d번 게시글은 존재하지 않습니다.", id));
+			return rq.jsHistoryBack(Ut.f("%d번 게시글은 존재하지 않습니다.", id));
 		}
 		
-		ResultData actionCanModifyRd =articleService.actionCanModify(rq.getLoginedMemberId(),article);//Service에서 게시글 수정권한을 체크하기위해서
+		ResultData actionCanModifyRd =articleService.actionCanModify(article, rq.getLoginedMemberId());//Service에서 게시글 수정권한을 체크하기위해서
 
 		if(actionCanModifyRd.isFail()) {//게시글권한이 없으면 F로시작되는 코드가 리턴될것이기 때문에 ResultData 실패코드를 그대로 리턴해준다.
 			
 			//return actionCanModifyRd;
-			return Ut.jsHistoryBack(actionCanModifyRd.getMsg());
+			return rq.jsHistoryBack(actionCanModifyRd.getMsg());
 		}
 		
 		//return articleService.modifyArticle(id, title, body,rq.getLoginedMemberId());//권한체크가 성공한다면 실제 수정기능 로직실행이됨
 		
-		articleService.modifyArticle(id, title, body,rq.getLoginedMemberId());
+		articleService.modifyArticle(id, title, body);
 		
-		return Ut.jsLocationReplace(Ut.f("%d번 글이 수정되었습니다.", id), Ut.f("../article/detail?id=%d", id));
+		return rq.jsReplace(Ut.f("%d번 글이 수정되었습니다.", id), Ut.f("../article/detail?id=%d", id));
 	}
 	
 	@RequestMapping("/usr/article/modify")
-	public String modify(Model model,int id) {
-
-		//Rq rq = (Rq) req.getAttribute("rq");
+	public String showmodify(Model model,int id) {
 
 		Article article = articleService.getForPrintArticle(id,rq.getLoginedMemberId());
 		
 		if (article == null) {
 
-			//return Ut.f("%d번 게시글은 존재하지 않습니다.", id);
 			return rq.historyBackOnView(Ut.f("%d번 게시물은 존재하지 않습니다.", id));
 		}
 		
-		ResultData actionCanModifyRd =articleService.actionCanModify(rq.getLoginedMemberId(),article);//Service에서 게시글 수정권한을 체크하기위해서
+		ResultData actionCanModifyRd =articleService.actionCanModify(article,rq.getLoginedMemberId());//Service에서 게시글 수정권한을 체크하기위해서
 
 		if(actionCanModifyRd.isFail()) {//게시글권한이 없으면 F로시작되는 코드가 리턴될것이기 때문에 ResultData 실패코드를 그대로 리턴해준다.
 			
-			//return actionCanModifyRd;
 			return rq.historyBackOnView(actionCanModifyRd.getMsg());
 		}
 
@@ -198,7 +178,6 @@ public class UsrArticleController {
 	@ResponseBody
 	public ResultData<Article> getArticle(int id) {// ResultData클래스타입으로 바꾸고 from()리턴타입으로 맞춰줘야함
 		
-		//Rq rq = (Rq) req.getAttribute("rq");
 
 		Article article = articleService.getForPrintArticle(id,rq.getLoginedMemberId());
 

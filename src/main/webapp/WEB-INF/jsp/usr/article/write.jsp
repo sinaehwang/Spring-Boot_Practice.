@@ -16,9 +16,11 @@
 
       <tr> 
         <th>게시판목록</th>
-        <td class="text-align-left text-indent text-strong text-blue" colspan="3">
-          <input type="checkbox" name="boardId" value="1" id="ch1"><label for="ch1">공지사항</label>
-          <input type="checkbox" name="boardId" value="2" id="ch2"><label for="ch2">자유게시판</label>
+        <td class= "text-align-left text-indent text-strong text-blue" colspan="3">
+          <input type="checkbox" checked="checked" class="checkbox checkbox-secondary" name="boardId" value="1" id="ch1">
+          <label for="ch1">공지사항</label>
+          <input type="checkbox" class="checkbox checkbox-secondary"  name="boardId" value="2" id="ch2">
+          <label for="ch2">자유게시판</label>
         </td>
       </tr>
       

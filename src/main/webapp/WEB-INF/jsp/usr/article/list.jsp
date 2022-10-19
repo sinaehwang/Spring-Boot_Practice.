@@ -23,7 +23,6 @@
         <th>번호</th>
         <th>제목</th>
         <th>작성날짜</th>
-        <th>수정날짜</th>
         <th>작성자</th>
       </tr>
     </thead>
@@ -34,14 +33,22 @@
         <td>
         <a class ="btn-text-link hover:underline" href="../article/detail?id=${article.id}">${article.title}</a> <!--제목클릭시 해당게시글상세페이지에 넘어가도록  -->
         </td>
-        <td>${article.regDate.substring(0,16)}</td>
-        <td>${article.updateDate.substring(0,16)}</td>
+        <td>${article.regDate}</td>
         <td>${article.extra_writerName }</td>
       </tr>
      </c:forEach>
     </tbody>
   </table>
   </div>
+  
+    <div class="page-box flex justify-center mt-3">
+      <div class="btn-group">
+      <c:forEach begin="1" end="20" var="i">
+        <a class="btn btn-sm ${param.page == i ? 'btn-active' : '' }" href="?page=${i }">${i }</a>
+      </c:forEach>
+      </div>
+    </div>
+
   </div>
  </section>
  <%@ include file="../common/foot.jspf" %>

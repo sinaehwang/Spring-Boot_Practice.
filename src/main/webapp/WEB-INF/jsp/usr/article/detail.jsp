@@ -27,11 +27,11 @@
       </tr>
       <tr>
         <th>작성날짜</th>
-        <td>${article.regDate.substring(0,16)}</td>
+        <td>${article.regDate}</td>
       </tr>
       <tr>
         <th>수정날짜</th>
-        <td>${article.updateDate.substring(0,16)}</td>
+        <td>${article.updateDate}</td>
       </tr>
       <tr>
         <th>작성자</th>
@@ -44,9 +44,13 @@
   <div class="btns mt-5">
       <button class="btn btn-link" type="button" onclick="history.back();">뒤로가기</button>
       <button class="btn btn-link" type="button" onclick="location.href='../home/main' ">HOME</button>
+      
+      <c:if test="${article.extra__actorCanModify}">
       <a class="btn btn-link ml-2"  href= "../article/modify?id=${article.id}">수정</a>
+      </c:if>
+      
       <c:if test="${article.extra__actorCanDelete}">
-        <a onclick="if ( confirm('게시물을 삭제하시겠습니까?') == false ) { return false; }" href="../article/doDelete?id=${article.id}" class="btn-text-link ml-2" >삭제</a>
+        <a class="btn-text-link ml-2"  onclick="if ( confirm('게시물을 삭제하시겠습니까?') == false ) return false;" href="../article/doDelete?id=${article.id}" >삭제</a>
       </c:if>
   </div>
   

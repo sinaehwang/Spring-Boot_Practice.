@@ -35,16 +35,16 @@ public class ArticleService {
 
 	}
 
-	public ResultData<Article> modifyArticle(int id, String title, String body,int loginedMemberId) {
+	public ResultData<Article> modifyArticle(int id, String title, String body) {
 
 		articleRepository.modifyArticle(id, title, body);
 
-		Article article = getForPrintArticle(id, loginedMemberId);// id를 기반으로 수정한 게시글을 가져온다.
+		Article article = getForPrintArticle(0, id);// id를 기반으로 수정한 게시글을 가져온다.
 
-		return ResultData.from("S-4", Ut.f("%d번 게시글이 수정되었습니다.", id), article,"Article");
+		return ResultData.from("S-4", Ut.f("%d번 게시글이 수정되었습니다.", id), article,"article");
 	}
 	
-	public ResultData actionCanModify(int loginedMemberId,Article article) {
+	public ResultData actionCanModify(Article article, int loginedMemberId) {
 
 		if (article.getMemberId()!=loginedMemberId) {
 			return ResultData.from("F-5", "해당게시글에 대한 권한이 없습니다.");
@@ -91,13 +91,13 @@ public class ArticleService {
 		
 		article.setExtra__actorCanDelete(actorCanDeletedRd.isSuccess());
 		
-		ResultData actorCanModifyRd = actionCanModify(loginedMemberId, article);
+		ResultData actorCanModifyRd = actionCanModify(article,loginedMemberId);
 		
-		article.setExtra__actorCanModify(actorCanDeletedRd.isSuccess());
+		article.setExtra__actorCanModify(actorCanModifyRd.isSuccess());
 		
 	}
 
-	private ResultData actorCanDelete(Article article, int loginedMemberId) {
+	public ResultData actorCanDelete(Article article, int loginedMemberId) {
 		
 		if(article == null) {
 			return ResultData.from("F-1", "게시물이 존재하지 않습니다.");

@@ -75,6 +75,11 @@ public class Rq {
 		
 		
 	}
+	
+	public void println(String str) {
+		print(str + "\n");
+	}
+	
 
 	public void login(Member member) {
 		
@@ -96,6 +101,16 @@ public class Rq {
 
 		return "usr/common/js";
 	}
+	
+	public String jsHistoryBack(String msg) {
+		return Ut.jsHistoryBack(msg);
+	}
+
+	public String jsReplace(String msg, String uri) {
+		return Ut.jsLocationReplace(msg, uri);
+	}
+	
+	
 
 	//별도기능을 가지고 있는게 아니라 초기실행이 필요해서 만든 메소드
 	public void initOnBeforeActionIntercepter() {
