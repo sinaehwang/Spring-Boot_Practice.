@@ -50,20 +50,20 @@
           value="${page + pageMemuArmLen >= pagesCount ? pagesCount : page + pageMemuArmLen}" /><!-- 현재페이지와 지정길이를 합한게 끝페이지를 넘는다면 끝페이지를 end로지정 -->
 
         <c:if test="${startPage > 1}">
-          <a class="btn btn-sm" href="?page=1">1</a>
+          <a class="btn btn-sm" href="?page=1&boardId=${boardId }">1</a><!-- 페이지이동시에 게시판Id도 받아야 해당게시판이 유지됨 -->
           <c:if test="${startPage > 2}">
             <a class="btn btn-sm btn-disabled">...</a>
           </c:if>
         </c:if>
         <c:forEach begin="${startPage }" end="${endPage }" var="i">
           <a class="btn btn-sm ${page == i ? 'btn-active' : ''}"
-            href="?page=${i}">${i}</a>
+            href="?page=${i}&boardId=${boardId }">${i}</a>
         </c:forEach>
         <c:if test="${endPage < pagesCount}">
           <c:if test="${endPage < pagesCount - 1}">
             <a class="btn btn-sm btn-disabled">...</a>
           </c:if>
-          <a class="btn btn-sm" href="?page=${pagesCount }">${pagesCount }</a>
+          <a class="btn btn-sm" href="?page=${pagesCount }&boardId=${boardId }">${pagesCount }</a>
         </c:if>
       </div>
     </div>
