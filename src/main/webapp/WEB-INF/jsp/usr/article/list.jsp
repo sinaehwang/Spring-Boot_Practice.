@@ -10,7 +10,7 @@
     <div class="container mx-auto px-3">
     <div>총 게시글 목록:${articlesCount}개</div>
     <div class = "table-box-type-1">
-  <table class = "table w-full">
+  <table  class = "table w-full ">
   <colgroup>
     <col width="50">
     <col width="150">
@@ -43,9 +43,28 @@
   
     <div class="page-box flex justify-center mt-3">
       <div class="btn-group">
-      <c:forEach begin="1" end="${pagesCount}" var="i">
-        <a class="btn btn-sm ${page == i ? 'btn-active' : '' }" href="?page=${i }">${i }</a>
-      </c:forEach>
+      <c:set var="pageMemuArmLen" value="4" />
+        <c:set var="startPage"
+          value="${page - pageMemuArmLen >= 1 ? page - pageMemuArmLen : 1}" /><!-- 현재페이지에서 지정길이보다 짧다면 첫페이지를 1로지정 -->
+        <c:set var="endPage"
+          value="${page + pageMemuArmLen >= pagesCount ? pagesCount : page + pageMemuArmLen}" /><!-- 현재페이지와 지정길이를 합한게 끝페이지를 넘는다면 끝페이지를 end로지정 -->
+
+        <c:if test="${startPage > 1}">
+          <a class="btn btn-sm" href="?page=1">1</a>
+          <c:if test="${startPage > 2}">
+            <a class="btn btn-sm btn-disabled">...</a>
+          </c:if>
+        </c:if>
+        <c:forEach begin="${startPage }" end="${endPage }" var="i">
+          <a class="btn btn-sm ${page == i ? 'btn-active' : ''}"
+            href="?page=${i}">${i}</a>
+        </c:forEach>
+        <c:if test="${endPage < pagesCount}">
+          <c:if test="${endPage < pagesCount - 1}">
+            <a class="btn btn-sm btn-disabled">...</a>
+          </c:if>
+          <a class="btn btn-sm" href="?page=${pagesCount }">${pagesCount }</a>
+        </c:if>
       </div>
     </div>
 
