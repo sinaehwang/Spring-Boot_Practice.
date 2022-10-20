@@ -47,24 +47,30 @@
         <c:set var="startPage"
           value="${page - pageMemuArmLen >= 1 ? page - pageMemuArmLen : 1}" /><!-- 현재페이지에서 지정길이보다 짧다면 첫페이지를 1로지정 -->
         <c:set var="endPage"
-          value="${page + pageMemuArmLen >= pagesCount ? pagesCount : page + pageMemuArmLen}" /><!-- 현재페이지와 지정길이를 합한게 끝페이지를 넘는다면 끝페이지를 end로지정 -->
+          value="${page + pageMemuArmLen <= pagesCount ? page + pageMemuArmLen : pagesCount}" /><!-- 현재페이지와 지정길이를 합한게 끝페이지를 넘는다면 끝페이지를 end로지정 -->
+        <c:set var="pageBaseUri" value="?boardId=${boardId}" />
+        <c:set var="pageBaseUri" value="${pageBaseUri}&searchKeywordType = ${param.searchKeywordType}" />
+        <c:set var="pageBaseUri" value="${pageBaseUri}&searchKeyword = ${param.searchKeyword}" /> <!-- Uri변수에 계속적으로 주소값이 더해서 재정의함 -->
 
         <c:if test="${startPage > 1}">
-          <a class="btn btn-sm" href="?page=1&boardId=${boardId }">1</a><!-- 페이지이동시에 게시판Id도 받아야 해당게시판이 유지됨 -->
+          <a class="btn btn-sm" href="${pageBaseUri}&page=1">1</a><!-- 페이지 이동시에 과 키워드,게시판Id까지 포함해서 링크연결시켜 해당게시판이 유지됨 -->
           <c:if test="${startPage > 2}">
             <a class="btn btn-sm btn-disabled">...</a>
           </c:if>
         </c:if>
-        <c:forEach begin="${startPage }" end="${endPage }" var="i">
-          <a class="btn btn-sm ${page == i ? 'btn-active' : ''}"
-            href="?page=${i}&boardId=${boardId }">${i}</a>
+        
+        <c:forEach begin="${startPage }" end="${endPage }" var="i"> <!-- 처음부터 끝페이지까지 버튼링크부분 -->
+          <a class="btn btn-sm ${page == i ? 'btn-active' : ''}" 
+            href="${pageBaseUri}&page=${i}">${i}</a> <!-- 현재페이지버튼 하이라이트부분표시,페이지이동,키워드,게시판Id링크연결-->
         </c:forEach>
+        
         <c:if test="${endPage < pagesCount}">
           <c:if test="${endPage < pagesCount - 1}">
             <a class="btn btn-sm btn-disabled">...</a>
           </c:if>
-          <a class="btn btn-sm" href="?page=${pagesCount }&boardId=${boardId }">${pagesCount }</a>
+          <a class="btn btn-sm" href="${pageBaseUri}&page=${pagesCount }">${pagesCount }</a>
         </c:if>
+        
       </div>
     </div>
 

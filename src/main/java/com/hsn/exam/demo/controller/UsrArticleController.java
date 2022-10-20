@@ -64,7 +64,7 @@ public class UsrArticleController {
 	public String getArticles(Model model,
 			@RequestParam(defaultValue = "1") int boardId,//boardId와 page인자값이 안넘왔을때 기본값으로 세팅하기위해
 			@RequestParam(defaultValue = "1") int page,
-			@RequestParam(defaultValue = "title,body") String searchKeywordType,
+			@RequestParam(defaultValue = "title,body") String searchKeywordType,//검색타입과 검색어 기본셋팅
 			@RequestParam(defaultValue = "") String searchKeyword) {
 		
 		Board board = boardService.getBoardId(boardId);//게시판 클래스생성
@@ -75,13 +75,13 @@ public class UsrArticleController {
 			return rq.historyBackOnView(Ut.f("%d번 게시판은 존재하지 않습니다.", boardId));
 		}
 
-		int articlesCount = boardService.getTotalPageCount(boardId,searchKeywordType,searchKeyword);//게시판Id별 총페이지갯수
+		int articlesCount = articleService.getTotalPageCount(boardId,searchKeywordType,searchKeyword);//게시판Id별 총페이지갯수,키워드코드와검색어를 넘겨준다.
 		
 		int itemsInAPage = 10; //10page씩 가져온다
 		
 		int pagesCount = (int)Math.ceil((double)articlesCount/itemsInAPage);//double형으로 형변환해서 소수점발생후 반올림을시켜야 누락페이지가 발생안함
 		
-		List<Article> articles = articleService.getForPrintArticles(rq.getLoginedMemberId(),boardId,itemsInAPage,page);//현재페이지랑 itemsInAPage를 넘겨줌
+		List<Article> articles = articleService.getForPrintArticles(rq.getLoginedMemberId(),boardId,itemsInAPage,page,searchKeywordType,searchKeyword);//현재페이지랑 itemsInAPage를 넘겨줌
 		
 		model.addAttribute("articlesCount",articlesCount);//TotalPageCount를 list.jsp에서 불러올수있음
 		model.addAttribute("articles",articles);//list.jsp에서 불러올수있음

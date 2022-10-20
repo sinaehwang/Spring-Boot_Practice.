@@ -2,6 +2,7 @@ package com.hsn.exam.demo.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hsn.exam.demo.Util.Ut;
@@ -12,6 +13,7 @@ import com.hsn.exam.demo.vo.ResultData;
 @Service
 public class ArticleService {
 
+	@Autowired
 	private ArticleRepository articleRepository;
 
 	public ArticleService(ArticleRepository articleRepository) {// 넘겨받은 다음에 프라이빗articleRepository에 저장후 사용
@@ -64,12 +66,13 @@ public class ArticleService {
 
 	}
 
-	public List<Article> getForPrintArticles(int loginedMemberId, int boardId, int itemsInAPage, int page) {//boardId정보를 추가적으로 받는다.
+	public List<Article> getForPrintArticles(int loginedMemberId, int boardId, int itemsInAPage, int page, String searchKeywordType, String searchKeyword) {//boardId정보를 추가적으로 받는다.
 
-		int startPage = (page-1)*itemsInAPage;//(현재페이지-1)*10개 시작점
+		int limitStart = (page-1)*itemsInAPage;//(현재페이지-1)*10개 시작점
 
-		int lastPage = itemsInAPage;
-		List<Article> articles = articleRepository.getArticles(boardId,startPage,lastPage);// 쿼리로 가져온 리스트들을 먼저 가져오고
+		int limitTake = itemsInAPage;
+		
+		List<Article> articles = articleRepository.getArticles(boardId,limitStart,limitTake,searchKeywordType,searchKeyword);// 쿼리로 가져온 리스트들을 먼저 가져오고
 		
 		for(Article article : articles) {
 			
@@ -106,6 +109,11 @@ public class ArticleService {
 			return ResultData.from("F-2", "해당게시물 권한이 없습니다.");
 		}
 		return ResultData.from("S-1", "삭제가능");
+	}
+
+	public int getTotalPageCount(int boardId, String searchKeywordType, String searchKeyword) {
+		
+		return articleRepository.getTotalPageCount(boardId,searchKeywordType,searchKeyword);
 	}
 
 

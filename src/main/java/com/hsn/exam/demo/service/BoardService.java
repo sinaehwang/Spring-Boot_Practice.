@@ -21,10 +21,7 @@ public class BoardService {
 		return boardRepository.getBoardId(boardId);
 	}
 
-	public int getTotalPageCount(int boardId, String searchKeywordType, String searchKeyword) {
 
-		return boardRepository.getTotalPageCount(boardId,searchKeywordType,searchKeyword);
-	}
 	
 	
 	
