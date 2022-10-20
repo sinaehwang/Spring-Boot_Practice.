@@ -62,8 +62,10 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/list")
 	public String getArticles(Model model,
-			@RequestParam(defaultValue = "1") int boardId,
-			@RequestParam(defaultValue = "1") int page) {//boardId와 page인자값이 안넘왔을때 기본값으로 세팅하기위해
+			@RequestParam(defaultValue = "1") int boardId,//boardId와 page인자값이 안넘왔을때 기본값으로 세팅하기위해
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "title,body") String searchKeywordType,
+			@RequestParam(defaultValue = "") String searchKeyword) {
 		
 		Board board = boardService.getBoardId(boardId);//게시판 클래스생성
 
@@ -73,7 +75,7 @@ public class UsrArticleController {
 			return rq.historyBackOnView(Ut.f("%d번 게시판은 존재하지 않습니다.", boardId));
 		}
 
-		int articlesCount = boardService.getTotalPageCount(boardId);//게시판Id별 총페이지갯수
+		int articlesCount = boardService.getTotalPageCount(boardId,searchKeywordType,searchKeyword);//게시판Id별 총페이지갯수
 		
 		int itemsInAPage = 10; //10page씩 가져온다
 		
