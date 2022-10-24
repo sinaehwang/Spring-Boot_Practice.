@@ -61,13 +61,11 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String getArticles(Model model,
-			@RequestParam(defaultValue = "1") int boardId,//boardId와 page인자값이 안넘왔을때 기본값으로 세팅하기위해
-			@RequestParam(defaultValue = "1") int page,
-			@RequestParam(defaultValue = "title,body") String searchKeywordType,//검색타입과 검색어 기본셋팅
-			@RequestParam(defaultValue = "") String searchKeyword) {
+	public String showList(Model model,@RequestParam(defaultValue = "1") int boardId,
+			@RequestParam(defaultValue = "title,body") String searchKeywordType,
+			@RequestParam(defaultValue = "") String searchKeyword,@RequestParam(defaultValue = "1") int page){
 		
-		Board board = boardService.getBoardId(boardId);//게시판 클래스생성
+		Board board = boardService.getBoardId(boardId);
 
 		
 		if(board==null) {

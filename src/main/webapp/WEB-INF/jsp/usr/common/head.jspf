@@ -8,7 +8,7 @@
 <title>${pageTitle }</title>
 
 <!-- 제이쿼리 -->
-<scrpit src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></scrpit>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
 <!-- 테일윈드 JIT -->
 <!-- 노말라이즈 라이브러리 까지 해결 -->
@@ -16,14 +16,14 @@
   href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" />
 
 <!-- 데이지 UI -->
-<link href="https://cdn.jsdelivr.net/npm/daisyui@1.16.2/dist/full.css"
+<link href="https://cdn.jsdelivr.net/npm/daisyui@2.31.0/dist/full.css"
   rel="stylesheet" type="text/css" />
 
 <!-- 폰트어썸 -->
-<link rel="stylesheet" href="https://cdnjs.com/libraries/font-awesome" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
 
 <link rel="stylesheet" href="/resource/commom.css">
-<script src="/resource/commom.js"></script>
+<script src="/resource/commom.js" defer="defer"></script>
 
 </head>
 <body>
@@ -66,10 +66,13 @@
       </ul>
       </div>
   </header>
-  <main>
+  
   <section class="mt-5"  >
-    <div class="container mx-auto px-3">${pageTitle }</div>
+    <div class="container mx-auto px-3">
+      <h1>${pageTitle }</h1>
+      </div>
  </section>
+  <main>
  
 
  

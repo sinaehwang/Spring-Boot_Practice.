@@ -27,7 +27,7 @@ public class UsrMemberController {
 
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
-	public ResultData doJoin(String loginId,String loginPw,String name,String nickname,String cellphoneNum,String email) {
+	public ResultData<Member> doJoin(String loginId,String loginPw,String name,String nickname,String cellphoneNum,String email) {
 		
 		if(Ut.empty(loginId)) { //아이디값을 매개변수로 주고 아이디에 Null여부를 판단하는 함수로 만듬
 			return ResultData.from("F-4", "아이디를 입력해주세요");
@@ -53,11 +53,11 @@ public class UsrMemberController {
 			return ResultData.from("F-4", "이메일을 입력해주세요");
 		}
 		
-		 ResultData JoinData = memberService.join(loginId,loginPw,name,nickname,cellphoneNum,email); //join으로 insert를 한후에
+		 ResultData<Integer> JoinData = memberService.join(loginId,loginPw,name,nickname,cellphoneNum,email); //join으로 insert를 한후에
 		 //현재 JoinData데이터에 들어있는 값은 코드,메세지,id정보
 		 
 		 if(JoinData.isFail()) {//아이디중복,이름+메일중복이 발생했을떄 둘다 실패한 경우니까 isFail()하나로 보여줄수 있음
-			 return JoinData;
+			 return (ResultData)JoinData;
 		 }
 		 
 		  Member member =memberService.getMemberById((int) JoinData.getData1()); //id를 기반으로 회원을 찾는 로직실행

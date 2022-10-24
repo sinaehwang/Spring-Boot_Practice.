@@ -69,18 +69,18 @@ public interface ArticleRepository {
 			<if test="searchKeyword != ''">
 				<choose>
 					<when test = "searchKeywordType == 'title'" >
-						AND article.title LIKE CONCAT('%', #{searchKeyword}, '%') 
+						AND article.title LIKE CONCAT('%',#{searchKeyword},'%') 
 					</when>
 					
 					<when test = "searchKeywordType == 'body'" >
-						AND article.body LIKE CONCAT('%', #{searchKeyword}, '%')
+						AND article.body LIKE CONCAT('%',#{searchKeyword},'%')
 					</when>
 					
 					<otherwise>
 						AND (
-							article.title LIKE CONCAT('%', #{searchKeyword},'%')
+							article.title LIKE CONCAT('%',#{searchKeyword},'%')
 							OR
-							article.body LIKE CONCAT('%', #{searchKeyword}, '%')
+							article.body LIKE CONCAT('%',#{searchKeyword},'%')
 						)
 					</otherwise>
 				</choose>
